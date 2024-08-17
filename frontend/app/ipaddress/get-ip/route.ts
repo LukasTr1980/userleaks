@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
 
   let clienthostname = null;
   let geoIpData = null;
-
   try {
     if (ipv4) {
       const [hostname] = await dns.reverse(ipv4);
@@ -42,7 +41,7 @@ export async function GET(request: NextRequest) {
     try {
       const client = new WebServiceClient(accountId, licenseKey);
 
-      const geoResponse = await client.city(ipv4);
+      const geoResponse = await client.insights(ipv4);
 
       geoIpData = {
         city: geoResponse.city?.names || null,
@@ -51,7 +50,10 @@ export async function GET(request: NextRequest) {
         locationLatitude: geoResponse.location?.latitude || null,
         locationLongitude: geoResponse.location?.longitude || null,
         locationTimezone: geoResponse.location?.timeZone || null,
+        locationAccuracyRadius: geoResponse.location?.accuracyRadius || null,
         postal: geoResponse.postal?.code || null,
+        connectionType: geoResponse.traits?.connectionType || null,
+        domain: geoResponse.traits?.domain || null,
       };
     } catch (error) {
       logger.error('MaxMind GeoIP lookup failed:', error);

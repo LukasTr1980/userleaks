@@ -21,7 +21,10 @@ export const useIpaddressStore = create<IpaddressState>((set) => ({
             locationLatitude: data.geoip?.locationLatitude || null,
             locationLongitude: data.geoip?.locationLongitude || null,
             locationTimezone: data.geoip?.locationTimezone || null,
+            locationAccuracyRadius: data.geoip?.locationAccuracyRadius || null,
             postal: data.geoip?.postal || null,
+            connectionType: data.geoip?.connectionType || null,
+            domain: data.geoip?.domain || null,
           },
         },
       });

@@ -5,7 +5,10 @@ export interface GeoIpData {
     locationLatitude: number | null,
     locationLongitude: number | null,
     locationTimezone: string | null,
+    locationAccuracyRadius: number | null,
     postal: string | null,
+    connectionType: { type: string } | null,
+    domain: string | null,
 }
 
 export interface IpaddressState {

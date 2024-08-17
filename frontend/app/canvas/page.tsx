@@ -38,7 +38,7 @@ export default function Page() {
     return (
         <>
             <div className='grid pb-2 px-2'>
-                <h3>Canvas Fingerprinting</h3>
+                <h4>Canvas Fingerprinting</h4>
             </div>
             <table className="table-auto">
                 <tbody>

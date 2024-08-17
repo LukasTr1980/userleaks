@@ -20,8 +20,9 @@ export default function Page() {
     return (
         <>
             <div className='grid pb-2 px-2'>
-                <h3>My IP Address</h3>
+                <h4>What's my IP Address?</h4>
             </div>
+            <div className='grid px-2'><span className='text-gray-600'>My IP Address:</span></div>
             <table className="table-auto">
                 <tbody>
                     <tr>
@@ -34,7 +35,7 @@ export default function Page() {
                     </tr>
                     <tr>
                         <td>Hostname</td>
-                        <td>{ipaddress?.clienthostname || 'Not available'}</td>
+                        <td className="break-all">{ipaddress?.clienthostname || 'Not available'}</td>
                     </tr>
                     <tr>
                         <td>City</td>
@@ -57,12 +58,24 @@ export default function Page() {
                         <td>{ipaddress.geoip?.locationLongitude || 'Not available'}</td>
                     </tr>
                     <tr>
+                        <td>AccuracyRadius</td>
+                        <td>{`${ipaddress.geoip?.locationAccuracyRadius} km` || 'Not available'}</td>
+                    </tr>
+                    <tr>
                         <td>Timezone</td>
                         <td>{ipaddress.geoip?.locationTimezone || 'Not available'}</td>
                     </tr>
                     <tr>
                         <td>Postal</td>
                         <td>{ipaddress.geoip?.postal || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Connection Type</td>
+                        <td>{typeof ipaddress.geoip?.connectionType === 'object' ? ipaddress.geoip.connectionType?.type : ipaddress.geoip?.connectionType || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Domain</td>
+                        <td>{ipaddress.geoip?.domain || 'Not available'}</td>
                     </tr>
                 </tbody>
             </table>
