@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Removed `font-size: 14px` in `globals.css`.
 
+### Changed
+- Layout changes.
+
 ## [v1.2.0] - 2024-08-17
 ### Added
 - Integrated MaxMind GeoIP location service for enhanced IP geolocation functionality.

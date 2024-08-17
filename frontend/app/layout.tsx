@@ -21,30 +21,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ul>
-          <a href="/">
-            <li>
-              Home
-            </li>
-          </a>
-          <a href="ipaddress">
-            <li>
-              IP Address
-            </li>
-          </a>
-          <a href="canvas">
-            <li>
-              Canvas
-            </li>
-          </a>
-          <a href="#">
-            <li>
-              Tab
-            </li>
-          </a>
-        </ul>
-        <div className='container w-screen md:ml-3 bg-white p-2'>
-          {children}
+        <div className="grid grid-rows-[auto_1fr] h-screen min-w-full">
+          <div className="w-full h-16 bg-gray-800 text-white flex items-center justify-center">
+            Test
+          </div>
+          <div className="grid grid-cols-[250px_1fr]">
+            {/* Sidebar */}
+            <ul className="w-64 p-4">
+              <a href="/">
+                <li>Home</li>
+              </a>
+              <a href="ipaddress">
+                <li>IP Address</li>
+              </a>
+              <a href="canvas">
+                <li>Canvas</li>
+              </a>
+              <a href="#">
+                <li>Tab</li>
+              </a>
+            </ul>
+            <div className="bg-white p-4">
+              {children}
+            </div>
+          </div>
         </div>
       </body>
     </html>
