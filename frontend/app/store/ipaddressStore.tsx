@@ -13,6 +13,7 @@ export const useIpaddressStore = create<IpaddressState>((set) => ({
         ipaddress: {
           ipv4: data.ipv4 || null,
           ipv6: data.ipv6 || null,
+          clienthostname: data.clienthostname || null,
         },
       });
     } catch (error) {

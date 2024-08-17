@@ -18,22 +18,26 @@ export default function Page() {
     }
 
     return (
-        <table className="table-auto">
-            <thead>
-                <tr>
-                    <th className="pt-0">What is my My IP Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>IPv4 Address</td>
-                    <td>{ipaddress?.ipv4 || 'Not available'}</td>
-                </tr>
-                <tr>
-                    <td>IPv6 Address</td>
-                    <td>{ipaddress?.ipv6 || 'Not available'}</td>
-                </tr>
-            </tbody>
-        </table>
+        <>
+            <div className='grid pb-2 px-2'>
+                <h3>My IP Address</h3>
+            </div>
+            <table className="table-auto">
+                <tbody>
+                    <tr>
+                        <td>IPv4 Address</td>
+                        <td>{ipaddress?.ipv4 || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>IPv6 Address</td>
+                        <td>{ipaddress?.ipv6 || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Hostname</td>
+                        <td>{ipaddress?.clienthostname || 'Not available'}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </>
     )
 }
