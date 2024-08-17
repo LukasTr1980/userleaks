@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import Sidebar from './components/Sidebar';
+import NavLinks from './components/Navlinks';
 
 export const metadata: Metadata = {
   title: 'UserLeaks',
@@ -21,27 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="grid grid-rows-[auto_1fr] h-screen min-w-full">
-          <div className="w-full h-16 bg-gray-800 text-white flex items-center justify-center">
-            Test
+        <div className="grid grid-rows-[auto_1fr] h-screen min-w-full relative">
+          <div className="w-full h-16 flex items-center justify-center relative border-b border-gray-300">
+            <Sidebar />
+            Userleaks
           </div>
-          <div className="grid grid-cols-[250px_1fr]">
+          <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr]">
             {/* Sidebar */}
-            <ul className="w-64 p-4">
-              <a href="/">
-                <li>Home</li>
-              </a>
-              <a href="ipaddress">
-                <li>IP Address</li>
-              </a>
-              <a href="canvas">
-                <li>Canvas</li>
-              </a>
-              <a href="#">
-                <li>Tab</li>
-              </a>
-            </ul>
-            <div className="bg-white p-4">
+            <div className="hidden sm:block border-r border-gray-300 pt-4">
+              <NavLinks />
+            </div>
+            <div className="bg-white max-w-7xl sm:px-4 pt-4">
               {children}
             </div>
           </div>

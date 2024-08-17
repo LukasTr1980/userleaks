@@ -37,7 +37,7 @@ export default function Page() {
     // Render the table when everything is loaded (no more "Checking..." messages)
     return (
         <>
-            <div className='grid pb-2 px-2'>
+            <div className='grid  pb-2 px-2'>
                 <h4>Canvas Fingerprinting</h4>
             </div>
             <table className="table-auto">
