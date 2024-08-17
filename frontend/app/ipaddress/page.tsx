@@ -36,6 +36,34 @@ export default function Page() {
                         <td>Hostname</td>
                         <td>{ipaddress?.clienthostname || 'Not available'}</td>
                     </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>{ipaddress.geoip?.city?.en || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Continent</td>
+                        <td>{ipaddress.geoip?.continent || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>{ipaddress.geoip?.country || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Latitude</td>
+                        <td>{ipaddress.geoip?.locationLatitude || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td>{ipaddress.geoip?.locationLongitude || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Timezone</td>
+                        <td>{ipaddress.geoip?.locationTimezone || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Postal</td>
+                        <td>{ipaddress.geoip?.postal || 'Not available'}</td>
+                    </tr>
                 </tbody>
             </table>
         </>

@@ -14,6 +14,15 @@ export const useIpaddressStore = create<IpaddressState>((set) => ({
           ipv4: data.ipv4 || null,
           ipv6: data.ipv6 || null,
           clienthostname: data.clienthostname || null,
+          geoip: {
+            city: data.geoip?.city || null,
+            continent: data.geoip?.continent || null,
+            country: data.geoip?.country || null,
+            locationLatitude: data.geoip?.locationLatitude || null,
+            locationLongitude: data.geoip?.locationLongitude || null,
+            locationTimezone: data.geoip?.locationTimezone || null,
+            postal: data.geoip?.postal || null,
+          },
         },
       });
     } catch (error) {
