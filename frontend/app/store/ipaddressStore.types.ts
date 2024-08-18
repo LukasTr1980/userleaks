@@ -1,4 +1,4 @@
-export interface GeoIpData {
+export interface IpData {
     city: { [key: string]: string } | null,
     continent: string | null,
     country: string | null,
@@ -18,7 +18,7 @@ export interface IpaddressState {
         ipv4: string | null;
         ipv6: string | null;
         clienthostname: string | null;
-        geoip: GeoIpData | null;
+        ipData: IpData | null;
     } | null;
     retrieveIpaddress: () => void;
 }

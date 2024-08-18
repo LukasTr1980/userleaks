@@ -41,18 +41,18 @@ export default function Page() {
                 </tbody>
             </table>
 
-            {ipaddress?.geoip && (
+            {ipaddress?.ipData && (
                 <>
                     <div className='grid px-2'><span className='text-gray-600'>IP Address Location:</span></div>
                     <table className="table-auto">
                         <tbody>
-                            {renderTableRows(LOCATION_DATA(ipaddress.geoip))}
+                            {renderTableRows(LOCATION_DATA(ipaddress.ipData))}
                         </tbody>
                     </table>
                     <div className='grid px-2'><span className='text-gray-600'>Traits:</span></div>
                     <table className="table-auto">
                         <tbody>
-                            {renderTableRows(TRAITS_DATA(ipaddress.geoip))}
+                            {renderTableRows(TRAITS_DATA(ipaddress.ipData))}
                         </tbody>
                     </table>
                 </>

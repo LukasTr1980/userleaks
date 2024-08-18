@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   const ipv6 = ipAddresses.find(ip => ip.includes(':'));
 
   let clienthostname = null;
-  let geoIpData = null;
+  let IpData = null;
   try {
     if (ipv4) {
       const [hostname] = await dns.reverse(ipv4);
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
       const geoResponse = await client.insights(ipv4);
 
-      geoIpData = {
+      IpData = {
         city: geoResponse.city?.names || null,
         continent: geoResponse.continent?.code || null,
         country: geoResponse.country?.isoCode || null,
@@ -66,6 +66,6 @@ export async function GET(request: NextRequest) {
     ipv4: ipv4 || null,
     ipv6: ipv6 || null,
     clienthostname: clienthostname || null,
-    geoip: geoIpData || null,
+    ipData: IpData || null,
   });
 }

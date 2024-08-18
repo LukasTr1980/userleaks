@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored code for the IP address page and canvas page with constants.
 - Created logo with a transparent background.
 - Further improvements to design.
+- Renamed `geoip` to `ipData` to reflect broader data usage.
+- Updated Winston logger to use the local timezone.
 
 ## [v1.5.0] - 2024-08-18
 ### Added

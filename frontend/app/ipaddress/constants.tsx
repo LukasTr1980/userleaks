@@ -1,4 +1,4 @@
-import { GeoIpData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, IpaddressState } from "../store/ipaddressStore.types";
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     { label: 'Ipv4 Address', value: ipaddress?.ipv4 || 'Not available' },
@@ -6,29 +6,29 @@ export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     { label: 'Hostname', value: ipaddress?.clienthostname || 'Not available' },
 ];
 
-export const LOCATION_DATA = (geoip: GeoIpData) => [
-    { label: 'City', value: geoip.city?.en || 'Not available' },
-    { label: 'Continent', value: geoip.continent || 'Not available' },
-    { label: 'Country', value: geoip.country || 'Not available' },
+export const LOCATION_DATA = (ipData: IpData) => [
+    { label: 'City', value: ipData.city?.en || 'Not available' },
+    { label: 'Continent', value: ipData.continent || 'Not available' },
+    { label: 'Country', value: ipData.country || 'Not available' },
     {
         label: 'Location (Lat, Long)',
-        value: geoip.locationLatitude && geoip.locationLongitude
-            ? `${geoip.locationLatitude}, ${geoip.locationLongitude}`
+        value: ipData.locationLatitude && ipData.locationLongitude
+            ? `${ipData.locationLatitude}, ${ipData.locationLongitude}`
             : 'Not available'
     },
-    { label: 'AccuracyRadius', value: `${geoip.locationAccuracyRadius} km` || 'Not available' },
-    { label: 'Timezone', value: geoip.locationTimezone || 'Not available' },
-    { label: 'Postal', value: geoip.postal || 'Not available' },
+    { label: 'AccuracyRadius', value: `${ipData.locationAccuracyRadius} km` || 'Not available' },
+    { label: 'Timezone', value: ipData.locationTimezone || 'Not available' },
+    { label: 'Postal', value: ipData.postal || 'Not available' },
 ];
 
-export const TRAITS_DATA = (geoip: GeoIpData) => [
-    { label: 'Internet Service Provider', value: geoip.isp || 'Not available' },
+export const TRAITS_DATA = (ipData: IpData) => [
+    { label: 'Internet Service Provider', value: ipData.isp || 'Not available' },
     {
         label: 'Connection Type',
-        value: typeof geoip.connectionType === 'object'
-            ? geoip.connectionType?.type || 'Not available'
-            : geoip.connectionType || 'Not available'
+        value: typeof ipData.connectionType === 'object'
+            ? ipData.connectionType?.type || 'Not available'
+            : ipData.connectionType || 'Not available'
     },
-    { label: 'Network', value: geoip.network || 'Not available' },
-    { label: 'Domain', value: geoip.domain || 'Not available' },
+    { label: 'Network', value: ipData.network || 'Not available' },
+    { label: 'Domain', value: ipData.domain || 'Not available' },
 ]
