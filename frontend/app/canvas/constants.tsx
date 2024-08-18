@@ -12,7 +12,7 @@ export const CANVAS_SIGNATURE_DATA = (state: CanvasSupportState) => [
 
 export const CANVAS_DETAILS_DATA = (state: CanvasSupportState) => [
     {
-        label: 'Canvas File Details',
+        label: 'Canvas Image',
         value: state.canvasDataUrl ? (
             <img
             src={state.canvasDataUrl}

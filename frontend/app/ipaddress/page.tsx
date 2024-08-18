@@ -22,7 +22,7 @@ export default function Page() {
     const renderTableRows = (data: RowData[]) => {
         return data.map((item, index) => (
             <tr key={index}>
-                <td className="w-1/4">{item.label}</td>
+                <td className="w-1/3">{item.label}</td>
                 <td className={item.label === 'Hostname' ? 'break-all' : ''}>{item.value}</td>
             </tr>
         ));

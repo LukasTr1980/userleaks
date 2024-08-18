@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NavLinksProps } from "./Navlinks.types";
+import { NavLinksProps } from "./types";
 
 export const navLinks = [
   { href: '/', label: 'Home' },

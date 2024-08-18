@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased] - 2024-08-18
+### Added
+- Added `error.tsx` for error handling.
+- Added `loading.tsx` for handling loading states.
+- Implemented a loading timeout mechanism if loading takes too long.
+
 ### Changed
+- Optimized the loading process to load individual rows instead of the entire page.
 - Refactored code for the IP address page and canvas page with constants.
 - Created logo with a transparent background.
 - Further improvements to design.

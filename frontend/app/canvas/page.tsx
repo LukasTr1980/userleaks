@@ -1,16 +1,23 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCanvasSupportStore } from '../store/canvasStore';
-import Spinner from '../components/Spinner';
-import { RowData } from './types';
+import Loading from './loading';
+import { RenderTableRowProps } from './types';
 import { SUPPORT_CHECK_DATA, CANVAS_DETAILS_DATA, CANVAS_SIGNATURE_DATA } from './constants';
+import { useTimeout } from '../components/useTimeout';
 
 export default function Page() {
     const canvasstate = useCanvasSupportStore();
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
-        canvasstate.checkSupport();
+        try {
+            canvasstate.checkSupport();
+        } catch (error) {
+            console.error('Error during canvas support check:', error);
+            setHasError(true);
+        }
     }, [canvasstate]);
 
     const isLoading =
@@ -21,16 +28,25 @@ export default function Page() {
         canvasstate.canvasDataUrl === null ||
         canvasstate.canvasSizeInBytes === null ||
         canvasstate.numberOfColors === null;
+    
+    const loadingTimeout = useTimeout({ timeoutDuration: 5000, isLoading });
 
-    if (isLoading) {
-        return <Spinner />;
+    if (hasError || loadingTimeout) {
+        throw new Error('An error occured.');
     }
 
-    const renderTableRows = (data: RowData[]) => {
+    const renderTableRows = ({ data, isLoading}: RenderTableRowProps) => {
         return data.map((item, index) => (
             <tr key={index}>
-                <td className='w-1/4'>{item.label}</td>
-                <td className={item.label === 'Canvas Fingerprint' ? 'break-all' : ''}>{item.value}</td>
+                <td className='w-1/3'>{item.label}</td>
+                <td
+                    className={`
+                    ${item.label === 'Canvas Fingerprint' ? 'break-all' : ''}
+                    ${item.label === 'Canvas Image' ? 'h-14' : ''}
+                    `}
+                >
+                    {isLoading ? <Loading /> : item.value}
+                </td>
             </tr>
         ))
     }
@@ -43,19 +59,19 @@ export default function Page() {
             <div className='grid px-2'><span className='text-gray-600'>Canvas support:</span></div>
             <table className="table-auto">
                 <tbody>
-                    {renderTableRows(SUPPORT_CHECK_DATA(canvasstate))}
+                    {renderTableRows({data: SUPPORT_CHECK_DATA(canvasstate), isLoading})}
                 </tbody>
             </table>
             <div className='grid px-2'><span className='text-gray-600'>Canvas signature:</span></div>
             <table className='table-auto'>
                 <tbody>
-                    {renderTableRows(CANVAS_SIGNATURE_DATA(canvasstate))}
+                    {renderTableRows({ data: CANVAS_SIGNATURE_DATA(canvasstate), isLoading })}
                 </tbody>
             </table>
             <div className='grid px-2'><span className='text-gray-600'>Canvas Image Details:</span></div>
             <table className='table-auto'>
                 <tbody>
-                    {renderTableRows(CANVAS_DETAILS_DATA(canvasstate))}
+                    {renderTableRows({ data: CANVAS_DETAILS_DATA(canvasstate), isLoading })}
                 </tbody>
             </table>
         </>
