@@ -47,3 +47,9 @@ li {
 .menu-link {
     @apply hover:underline;
 }
+
+@media (max-width: 640px) {
+    .menu-link {
+        @apply block hover:bg-gray-200 rounded-lg py-1 px-1;
+    }
+}
