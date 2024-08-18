@@ -40,6 +40,7 @@ export default function Page() {
             <div className='grid  pb-2 px-2'>
                 <h4>Canvas Fingerprinting</h4>
             </div>
+            <div className='grid px-2'><span className='text-gray-600'>Canvas support:</span></div>
             <table className="table-auto">
                 <tbody>
                     <tr>
@@ -54,10 +55,20 @@ export default function Page() {
                         <td>Canvas toDataUrl</td>
                         <td>{toDataUrlSupported ? 'Supported' : 'Not Supported'}</td>
                     </tr>
+                </tbody>
+            </table>
+            <div className='grid px-2'><span className='text-gray-600'>Canvas signature:</span></div>
+            <table className='table-auto'>
+                <tbody>
                     <tr>
                         <td>Canvas Fingerprint</td>
                         <td className="break-all">{canvasSignature}</td>
                     </tr>
+                </tbody>
+            </table>
+            <div className='grid px-2'><span className='text-gray-600'>Canvas Image Details:</span></div>
+            <table className='table-auto'>
+                <tbody>
                     <tr>
                         <td>Canvas File Details</td>
                         <td>

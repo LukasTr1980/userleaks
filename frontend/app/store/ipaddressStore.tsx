@@ -25,6 +25,8 @@ export const useIpaddressStore = create<IpaddressState>((set) => ({
             postal: data.geoip?.postal || null,
             connectionType: data.geoip?.connectionType || null,
             domain: data.geoip?.domain || null,
+            isp: data.geoip?.isp || null,
+            network: data.geoip?.network || null,
           },
         },
       });

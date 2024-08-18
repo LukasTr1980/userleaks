@@ -54,6 +54,8 @@ export async function GET(request: NextRequest) {
         postal: geoResponse.postal?.code || null,
         connectionType: geoResponse.traits?.connectionType || null,
         domain: geoResponse.traits?.domain || null,
+        isp: geoResponse.traits?.isp || null,
+        network: geoResponse.traits?.network || null,
       };
     } catch (error) {
       logger.error('MaxMind GeoIP lookup failed:', error);

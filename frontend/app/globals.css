@@ -24,8 +24,16 @@ h4 {
     @apply text-2xl font-bold text-gray-600;
 }
 
+h5 {
+    @apply font-bold;
+}
+
 table {
     @apply text-left border-collapse min-w-full;
+}
+
+.table-border {
+    @apply border border-gray-300;
 }
 
 td {

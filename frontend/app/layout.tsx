@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import NavLinks from './components/Navlinks';
 import logoSmallImage from './image/logo-43x48.webp';
 import Image from 'next/image';
+import CurrentPath from './components/CurrentPath';
 
 export const metadata: Metadata = {
   title: 'Userleaks',
@@ -27,18 +28,23 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="grid grid-rows-[auto_1fr] h-screen min-w-full relative">
-          <div className="w-full h-16 flex items-center justify-center relative border-b border-gray-300">
-            <Sidebar />
-            <Image
-              src={logoSmallImage}
-              alt='Userleaks logo'
-              className='hidden sm:block left-4 absolute'
-              width={43}
-              height={48}
-            />
+          <div className="w-full h-16 flex items-center justify-between relative border-b border-gray-300 bg-gray-50">
+            <div className='flex items-center sm:space-x-4'>
+              <Sidebar />
+              <Image
+                src={logoSmallImage}
+                alt='Userleaks logo'
+                className='hidden sm:block'
+                width={43}
+                height={48}
+              />
+              <div className='hidden sm:block'>
+                <CurrentPath />
+              </div>
+            </div>
           </div>
+          
           <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr]">
-            {/* Sidebar */}
             <div className="hidden sm:block border-r border-gray-300 pt-4">
               <NavLinks />
             </div>

@@ -37,6 +37,11 @@ export default function Page() {
                         <td>Hostname</td>
                         <td className="break-all">{ipaddress?.clienthostname || 'Not available'}</td>
                     </tr>
+                </tbody>
+            </table>
+            <div className='grid px-2'><span className='text-gray-600'>IP Address Location:</span></div>
+            <table className="table-auto">
+                <tbody>
                     <tr>
                         <td>City</td>
                         <td>{ipaddress.geoip?.city?.en || 'Not available'}</td>
@@ -50,12 +55,12 @@ export default function Page() {
                         <td>{ipaddress.geoip?.country || 'Not available'}</td>
                     </tr>
                     <tr>
-                        <td>Latitude</td>
-                        <td>{ipaddress.geoip?.locationLatitude || 'Not available'}</td>
-                    </tr>
-                    <tr>
-                        <td>Longitude</td>
-                        <td>{ipaddress.geoip?.locationLongitude || 'Not available'}</td>
+                        <td>Location (Lat, Long)</td>
+                        <td>
+                            {ipaddress.geoip?.locationLatitude && ipaddress.geoip?.locationLongitude
+                                ? `${ipaddress.geoip.locationLatitude}, ${ipaddress.geoip.locationLongitude}`
+                                : 'Not available'}
+                        </td>
                     </tr>
                     <tr>
                         <td>AccuracyRadius</td>
@@ -69,9 +74,22 @@ export default function Page() {
                         <td>Postal</td>
                         <td>{ipaddress.geoip?.postal || 'Not available'}</td>
                     </tr>
+                </tbody>
+            </table>
+            <div className='grid px-2'><span className='text-gray-600'>Traits:</span></div>
+            <table className="table-auto">
+                <tbody>
+                    <tr>
+                        <td>Internet Service Provider</td>
+                        <td>{ipaddress.geoip?.isp || 'Not available'}</td>
+                    </tr>
                     <tr>
                         <td>Connection Type</td>
                         <td>{typeof ipaddress.geoip?.connectionType === 'object' ? ipaddress.geoip.connectionType?.type : ipaddress.geoip?.connectionType || 'Not available'}</td>
+                    </tr>
+                    <tr>
+                        <td>Network</td>
+                        <td>{ipaddress.geoip?.network || 'Not available'}</td>
                     </tr>
                     <tr>
                         <td>Domain</td>

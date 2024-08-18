@@ -9,6 +9,8 @@ export interface GeoIpData {
     postal: string | null,
     connectionType: { type: string } | null,
     domain: string | null,
+    isp: string | null,
+    network: string | null,
 }
 
 export interface IpaddressState {
