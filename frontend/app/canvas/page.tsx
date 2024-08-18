@@ -3,38 +3,38 @@
 import { useEffect } from 'react';
 import { useCanvasSupportStore } from '../store/canvasStore';
 import Spinner from '../components/Spinner';
+import { RowData } from './types';
+import { SUPPORT_CHECK_DATA, CANVAS_DETAILS_DATA, CANVAS_SIGNATURE_DATA } from './constants';
 
 export default function Page() {
-    const {
-        canvasSupported,
-        textApiSupported,
-        toDataUrlSupported,
-        canvasSignature,
-        canvasDataUrl,
-        canvasSizeInBytes,
-        numberOfColors,
-        checkSupport,
-    } = useCanvasSupportStore();
+    const canvasstate = useCanvasSupportStore();
 
     useEffect(() => {
-        checkSupport(); // Ensure this function runs only once when the component mounts
-    }, [checkSupport]);
+        canvasstate.checkSupport();
+    }, [canvasstate]);
 
-    // If any of the required values are null, display the spinner
     const isLoading =
-        canvasSupported === null ||
-        textApiSupported === null ||
-        toDataUrlSupported === null ||
-        canvasSignature === null ||
-        canvasDataUrl === null ||
-        canvasSizeInBytes === null ||
-        numberOfColors === null;
+        canvasstate.canvasSupported === null ||
+        canvasstate.textApiSupported === null ||
+        canvasstate.toDataUrlSupported === null ||
+        canvasstate.canvasSignature === null ||
+        canvasstate.canvasDataUrl === null ||
+        canvasstate.canvasSizeInBytes === null ||
+        canvasstate.numberOfColors === null;
 
     if (isLoading) {
         return <Spinner />;
     }
 
-    // Render the table when everything is loaded (no more "Checking..." messages)
+    const renderTableRows = (data: RowData[]) => {
+        return data.map((item, index) => (
+            <tr key={index}>
+                <td className='w-1/4'>{item.label}</td>
+                <td className={item.label === 'Canvas Fingerprint' ? 'break-all' : ''}>{item.value}</td>
+            </tr>
+        ))
+    }
+
     return (
         <>
             <div className='grid  pb-2 px-2'>
@@ -43,52 +43,19 @@ export default function Page() {
             <div className='grid px-2'><span className='text-gray-600'>Canvas support:</span></div>
             <table className="table-auto">
                 <tbody>
-                    <tr>
-                        <td>Canvas 2D API Support Check</td>
-                        <td>{canvasSupported ? 'Supported' : 'Not Supported'}</td>
-                    </tr>
-                    <tr>
-                        <td>Canvas Text API</td>
-                        <td>{textApiSupported ? 'Supported' : 'Not Supported'}</td>
-                    </tr>
-                    <tr>
-                        <td>Canvas toDataUrl</td>
-                        <td>{toDataUrlSupported ? 'Supported' : 'Not Supported'}</td>
-                    </tr>
+                    {renderTableRows(SUPPORT_CHECK_DATA(canvasstate))}
                 </tbody>
             </table>
             <div className='grid px-2'><span className='text-gray-600'>Canvas signature:</span></div>
             <table className='table-auto'>
                 <tbody>
-                    <tr>
-                        <td>Canvas Fingerprint</td>
-                        <td className="break-all">{canvasSignature}</td>
-                    </tr>
+                    {renderTableRows(CANVAS_SIGNATURE_DATA(canvasstate))}
                 </tbody>
             </table>
             <div className='grid px-2'><span className='text-gray-600'>Canvas Image Details:</span></div>
             <table className='table-auto'>
                 <tbody>
-                    <tr>
-                        <td>Canvas File Details</td>
-                        <td>
-                            {canvasDataUrl && (
-                                <img
-                                    src={canvasDataUrl}
-                                    alt="Canvas Rendered"
-                                    className="border border-gray-300"
-                                />
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Canvas File Size</td>
-                        <td>{`${canvasSizeInBytes} bytes`}</td>
-                    </tr>
-                    <tr>
-                        <td>Canvas number of Colors</td>
-                        <td>{numberOfColors}</td>
-                    </tr>
+                    {renderTableRows(CANVAS_DETAILS_DATA(canvasstate))}
                 </tbody>
             </table>
         </>

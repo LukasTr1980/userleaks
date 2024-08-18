@@ -37,7 +37,7 @@ table {
 }
 
 td {
-    @apply border border-white px-2 py-2 bg-gray-100 break-words;
+    @apply border border-white px-2 py-2 bg-gray-100 break-words text-left;
 }
 
 th {
