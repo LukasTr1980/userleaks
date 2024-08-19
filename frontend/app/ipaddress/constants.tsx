@@ -1,5 +1,20 @@
 import { IpData, IpaddressState } from "../store/ipaddressStore.types";
 
+export const DEFAULT_IP_DATA: IpData = {
+    city: null,
+    continent: null,
+    country: null,
+    locationLatitude: null,
+    locationLongitude: null,
+    locationTimezone: null,
+    locationAccuracyRadius: null,
+    postal: null,
+    connectionType: null,
+    domain: null,
+    isp: null,
+    network: null,
+};
+
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     { label: 'Ipv4 Address', value: ipaddress?.ipv4 || 'Not available' },
     { label: 'Ipv6 Address', value: ipaddress?.ipv6 || 'Not available' },
