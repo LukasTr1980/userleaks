@@ -5,6 +5,7 @@ import NavLinks from './components/Navlinks';
 import logoSmallImage from './image/logo-43x48.webp';
 import Image from 'next/image';
 import CurrentPath from './components/CurrentPath';
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 export const metadata: Metadata = {
   title: 'Userleaks',

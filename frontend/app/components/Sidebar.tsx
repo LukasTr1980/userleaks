@@ -33,7 +33,7 @@ export default function Sidebar() {
       )}
 
       <div
-        className={`pt-4 border-r border-gray-300 bg-white fixed top-0 left-0 h-full w-52 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`pt-4 border-r border-gray-300 bg-white fixed top-0 left-0 h-full w-52 transform z-40 ${isOpen ? 'translate-x-0' : '-translate-x-full'
           } transition-transform duration-300 sm:hidden`}
       >
         <NavLinks closeSidebar={closeSidebar} />

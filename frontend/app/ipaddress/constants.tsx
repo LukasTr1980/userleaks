@@ -1,5 +1,5 @@
 import { IpData, IpaddressState } from "../store/ipaddressStore.types";
-import { capitalizeBoolean } from "../lib/utils";
+import { capitalizeBoolean, renderFlagIcon } from "../lib/utils";
 
 export const DEFAULT_IP_DATA: IpData = {
     city: null,
@@ -16,21 +16,48 @@ export const DEFAULT_IP_DATA: IpData = {
     network: null,
     isAnonymous: null,
     isAnonymousVpn: null,
-    isPublicProxy: null, 
+    isPublicProxy: null,
     isResidentialProxy: null,
-    isTorExitNode:  null,
+    isTorExitNode: null,
 };
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
-    { label: 'Ipv4 Address', value: ipaddress?.ipv4 || 'Not available' },
+    {
+        label: 'Ipv4 Address',
+        value: ipaddress?.ipv4
+            ? (
+                <span>
+                    {renderFlagIcon(ipaddress?.ipData?.country || null, 'country')} {ipaddress.ipv4}
+                </span>
+            )
+            : 'Not available'
+    },
     { label: 'Ipv6 Address', value: ipaddress?.ipv6 || 'Not available' },
     { label: 'Hostname', value: ipaddress?.clienthostname || 'Not available' },
 ];
 
 export const LOCATION_DATA = (ipData: IpData) => [
     { label: 'City', value: ipData.city?.en || 'Not available' },
-    { label: 'Continent', value: ipData.continent || 'Not available' },
-    { label: 'Country', value: ipData.country || 'Not available' },
+    {
+        label: 'Continent',
+        value: ipData.continent
+            ? (
+                <span>
+                    {renderFlagIcon(ipData.continent, 'continent')} {ipData.continent}
+                </span>
+            )
+            : 'Not available'
+    },
+    {
+        label: 'Country',
+        value: ipData.country
+            ? (
+                <span>
+                    {renderFlagIcon(ipData.country, 'country')} {ipData.country}
+                </span>
+            )
+            : 'Not available'
+    },
     {
         label: 'Location (Lat, Long)',
         value: ipData.locationLatitude && ipData.locationLongitude
@@ -55,9 +82,9 @@ export const TRAITS_DATA = (ipData: IpData) => [
 ]
 
 export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
-    { label:  'Is Anonymous', value: capitalizeBoolean(ipData.isAnonymous) },
-    { label:  'Is Anonymous VPN', value: capitalizeBoolean(ipData.isAnonymousVpn) },
-    { label:  'Is Public Proxy', value: capitalizeBoolean(ipData.isPublicProxy) },
-    { label:  'Is Residential Proxy', value: capitalizeBoolean(ipData.isResidentialProxy) },
-    { label:  'Is Tor Exit Node', value: capitalizeBoolean(ipData.isTorExitNode) },
+    { label: 'Is Anonymous', value: capitalizeBoolean(ipData.isAnonymous) },
+    { label: 'Is Anonymous VPN', value: capitalizeBoolean(ipData.isAnonymousVpn) },
+    { label: 'Is Public Proxy', value: capitalizeBoolean(ipData.isPublicProxy) },
+    { label: 'Is Residential Proxy', value: capitalizeBoolean(ipData.isResidentialProxy) },
+    { label: 'Is Tor Exit Node', value: capitalizeBoolean(ipData.isTorExitNode) },
 ]
