@@ -1,4 +1,5 @@
 import { IpData, IpaddressState } from "../store/ipaddressStore.types";
+import { capitalizeBoolean } from "../lib/utils";
 
 export const DEFAULT_IP_DATA: IpData = {
     city: null,
@@ -54,9 +55,9 @@ export const TRAITS_DATA = (ipData: IpData) => [
 ]
 
 export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
-    { label:  'Is Anonymous', value: ipData.isAnonymous != null ? ipData.isAnonymous.toString() : 'Not available' },
-    { label:  'Is Anonymous VPN', value: ipData.isAnonymousVpn != null ? ipData.isAnonymousVpn.toString() : 'Not available' },
-    { label:  'Is Public Proxy', value: ipData.isPublicProxy != null ? ipData.isPublicProxy.toString() : 'Not available' },
-    { label:  'Is Residential Proxy', value: ipData.isResidentialProxy != null ? ipData.isResidentialProxy.toString() : 'Not available' },
-    { label:  'Is Tor Exit Node', value: ipData.isTorExitNode != null ? ipData.isTorExitNode.toString() : 'Not available' },
+    { label:  'Is Anonymous', value: capitalizeBoolean(ipData.isAnonymous) },
+    { label:  'Is Anonymous VPN', value: capitalizeBoolean(ipData.isAnonymousVpn) },
+    { label:  'Is Public Proxy', value: capitalizeBoolean(ipData.isPublicProxy) },
+    { label:  'Is Residential Proxy', value: capitalizeBoolean(ipData.isResidentialProxy) },
+    { label:  'Is Tor Exit Node', value: capitalizeBoolean(ipData.isTorExitNode) },
 ]

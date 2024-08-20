@@ -1,0 +1,1 @@
+export type CapitalizeBooleanType = (value: boolean | null | undefined) => string;
