@@ -11,6 +11,11 @@ export interface IpData {
     domain: string | null,
     isp: string | null,
     network: string | null,
+    isAnonymous: boolean | null,
+    isAnonymousVpn: boolean | null,
+    isPublicProxy: boolean | null,
+    isResidentialProxy: boolean | null,
+    isTorExitNode: boolean | null,
 }
 
 export interface IpaddressState {

@@ -27,6 +27,11 @@ export const useIpaddressStore = create<IpaddressState>((set) => ({
             domain: data.ipData?.domain || null,
             isp: data.ipData?.isp || null,
             network: data.ipData?.network || null,
+            isAnonymous: data.ipData?.isAnonymous || null,
+            isAnonymousVpn: data.ipData?.isAnonymousVpn || null,
+            isPublicProxy: data.ipData?.isPublicProxy || null,
+            isResidentialProxy: data.ipData?.isResidentialProxy || null,
+            isTorExitNode: data.ipData?.isTorExitNode || null,
           },
         },
       });

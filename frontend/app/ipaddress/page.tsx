@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useIpaddressStore } from "../store/ipaddressStore";
-import { IP_DATA, LOCATION_DATA, TRAITS_DATA, DEFAULT_IP_DATA } from "./constants";
+import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA } from "./constants";
 import { RenderTableRowProps } from "./types";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
@@ -72,6 +72,16 @@ export default function Page() {
                     {renderTableRows({
                         data: TRAITS_DATA(ipaddress?.ipData || DEFAULT_IP_DATA), // Render with empty object initially
                         isLoading: isLocationAndTraitsLoading, // Show spinner while loading
+                    })}
+                </tbody>
+            </table>
+
+            <div className="grid px-2"><span className="text-gray-600">Proxy, VPN or Tor:</span></div>
+            <table className="table-auto">
+                <tbody>
+                    {renderTableRows({
+                        data: VPN_PROXY_TOR_DATA(ipaddress?.ipData || DEFAULT_IP_DATA),
+                        isLoading: isLocationAndTraitsLoading,
                     })}
                 </tbody>
             </table>

@@ -1,6 +1,6 @@
 export interface RowData {
     label: string;
-    value: string | number | null;
+    value: string | number | boolean | null;
 }
 
 export interface ErrorBoundaryProps {

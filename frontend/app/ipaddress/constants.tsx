@@ -13,6 +13,11 @@ export const DEFAULT_IP_DATA: IpData = {
     domain: null,
     isp: null,
     network: null,
+    isAnonymous: null,
+    isAnonymousVpn: null,
+    isPublicProxy: null, 
+    isResidentialProxy: null,
+    isTorExitNode:  null,
 };
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
@@ -46,4 +51,12 @@ export const TRAITS_DATA = (ipData: IpData) => [
     },
     { label: 'Network', value: ipData.network || 'Not available' },
     { label: 'Domain', value: ipData.domain || 'Not available' },
+]
+
+export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
+    { label:  'Is Anonymous', value: ipData.isAnonymous != null ? ipData.isAnonymous.toString() : 'Not available' },
+    { label:  'Is Anonymous VPN', value: ipData.isAnonymousVpn != null ? ipData.isAnonymousVpn.toString() : 'Not available' },
+    { label:  'Is Public Proxy', value: ipData.isPublicProxy != null ? ipData.isPublicProxy.toString() : 'Not available' },
+    { label:  'Is Residential Proxy', value: ipData.isResidentialProxy != null ? ipData.isResidentialProxy.toString() : 'Not available' },
+    { label:  'Is Tor Exit Node', value: ipData.isTorExitNode != null ? ipData.isTorExitNode.toString() : 'Not available' },
 ]

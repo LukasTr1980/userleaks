@@ -41,21 +41,26 @@ export async function GET(request: NextRequest) {
     try {
       const client = new WebServiceClient(accountId, licenseKey);
 
-      const geoResponse = await client.insights(ipv4);
+      const maxmindResponse = await client.insights(ipv4);
 
       IpData = {
-        city: geoResponse.city?.names || null,
-        continent: geoResponse.continent?.code || null,
-        country: geoResponse.country?.isoCode || null,
-        locationLatitude: geoResponse.location?.latitude || null,
-        locationLongitude: geoResponse.location?.longitude || null,
-        locationTimezone: geoResponse.location?.timeZone || null,
-        locationAccuracyRadius: geoResponse.location?.accuracyRadius || null,
-        postal: geoResponse.postal?.code || null,
-        connectionType: geoResponse.traits?.connectionType || null,
-        domain: geoResponse.traits?.domain || null,
-        isp: geoResponse.traits?.isp || null,
-        network: geoResponse.traits?.network || null,
+        city: maxmindResponse.city?.names || null,
+        continent: maxmindResponse.continent?.code || null,
+        country: maxmindResponse.country?.isoCode || null,
+        locationLatitude: maxmindResponse.location?.latitude || null,
+        locationLongitude: maxmindResponse.location?.longitude || null,
+        locationTimezone: maxmindResponse.location?.timeZone || null,
+        locationAccuracyRadius: maxmindResponse.location?.accuracyRadius || null,
+        postal: maxmindResponse.postal?.code || null,
+        connectionType: maxmindResponse.traits?.connectionType || null,
+        domain: maxmindResponse.traits?.domain || null,
+        isp: maxmindResponse.traits?.isp || null,
+        network: maxmindResponse.traits?.network || null,
+        isAnonymous: maxmindResponse.traits.isAnonymous || null,
+        isAnonymousVpn: maxmindResponse.traits?.isAnonymousVpn || null,
+        isPublicProxy: maxmindResponse.traits.isPublicProxy || null,
+        isResidentialProxy: maxmindResponse.traits.isResidentialProxy || null,
+        isTorExitNode: maxmindResponse.traits.isTorExitNode || null,
       };
     } catch (error) {
       logger.error('MaxMind GeoIP lookup failed:', error);
