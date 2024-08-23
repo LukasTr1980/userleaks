@@ -8,3 +8,8 @@ export interface UseTimeoutProps {
 }
 
 export type UseTimeoutReturn = boolean;
+
+export interface GoogleMapsProps {
+    latitude: number;
+    longitude: number;
+}

@@ -6,6 +6,7 @@ import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DAT
 import { RenderTableRowProps } from "./types";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
+import GoogleMaps from '../components/GoogleMaps';
 
 export default function Page() {
     const { ipaddress, retrieveIpaddress } = useIpaddressStore();
@@ -30,12 +31,21 @@ export default function Page() {
         throw new Error('An Error occurred.')
     }
 
+    const latitude = ipaddress?.ipData?.locationLatitude;
+    const longitude = ipaddress?.ipData?.locationLongitude;
+
     const renderTableRows = ({ data, isLoading }: RenderTableRowProps) => {
         return data.map((item, index) => (
             <tr key={index}>
                 <td className="w-1/3">{item.label}</td>
                 <td className={item.label === 'Hostname' ? 'break-all' : ''}>
-                    {isLoading ? <Loading /> : item.value || 'Not available'}
+                    {isLoading ? (
+                        <Loading />
+                    ) : (
+                        <span className={item.value === 'Not available' ? 'text-gray-300' : ''}>
+                            {item.value || 'Not available'}
+                        </span>
+                    )}
                 </td>
             </tr>
         ));
@@ -85,6 +95,15 @@ export default function Page() {
                     })}
                 </tbody>
             </table>
+
+            <div className="grid px-2"><span className="text-gray-600">Where is my IP:</span></div>
+            <div className="container w-full h-96">
+                {isLocationAndTraitsLoading || !latitude || !longitude ? (
+                    <Loading />
+                ) : (
+                    <GoogleMaps latitude={latitude} longitude={longitude} />
+                )}
+            </div>
         </>
     );
 }

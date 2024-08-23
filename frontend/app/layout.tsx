@@ -44,7 +44,6 @@ export default function RootLayout({
               </div>
             </div>
           </div>
-          
           <div className="grid grid-cols-1 sm:grid-cols-[200px_1fr]">
             <div className="hidden sm:block border-r border-gray-300 pt-4">
               <NavLinks />
@@ -53,6 +52,7 @@ export default function RootLayout({
               {children}
             </div>
           </div>
+          <footer className='w-full h-16 flex justify-center border-t border-gray-300 bg-gray-50 items-center'>{new Date().getFullYear()} Userleaks</footer>
         </div>
       </body>
     </html>

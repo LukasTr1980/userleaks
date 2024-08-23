@@ -28,14 +28,14 @@ export default function Page() {
         canvasstate.canvasDataUrl === null ||
         canvasstate.canvasSizeInBytes === null ||
         canvasstate.numberOfColors === null;
-    
+
     const loadingTimeout = useTimeout({ timeoutDuration: 5000, isLoading });
 
     if (hasError || loadingTimeout) {
         throw new Error('An error occured.');
     }
 
-    const renderTableRows = ({ data, isLoading}: RenderTableRowProps) => {
+    const renderTableRows = ({ data, isLoading }: RenderTableRowProps) => {
         return data.map((item, index) => (
             <tr key={index}>
                 <td className='w-1/3'>{item.label}</td>
@@ -45,7 +45,13 @@ export default function Page() {
                     ${item.label === 'Canvas Image' ? 'h-14' : ''}
                     `}
                 >
-                    {isLoading ? <Loading /> : item.value}
+                    {isLoading ? (
+                        <Loading />
+                    ) : (
+                        <span className={item.value === 'Not available' ? 'text-gray-300' : ''}>
+                            {item.value || 'Not available'}
+                        </span>
+                    )}
                 </td>
             </tr>
         ))
@@ -59,7 +65,7 @@ export default function Page() {
             <div className='grid px-2'><span className='text-gray-600'>Canvas support:</span></div>
             <table className="table-auto">
                 <tbody>
-                    {renderTableRows({data: SUPPORT_CHECK_DATA(canvasstate), isLoading})}
+                    {renderTableRows({ data: SUPPORT_CHECK_DATA(canvasstate), isLoading })}
                 </tbody>
             </table>
             <div className='grid px-2'><span className='text-gray-600'>Canvas signature:</span></div>

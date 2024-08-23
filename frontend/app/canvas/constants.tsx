@@ -7,7 +7,7 @@ export const SUPPORT_CHECK_DATA = (state: CanvasSupportState) => [
 ];
 
 export const CANVAS_SIGNATURE_DATA = (state: CanvasSupportState) => [
-    { label: 'Canvas Fingerprint', value: state.canvasSignature || 'Not available' },
+    { label: 'Canvas Fingerprint', value: state.canvasSignature?.toUpperCase() || 'Not available' },
 ];
 
 export const CANVAS_DETAILS_DATA = (state: CanvasSupportState) => [
