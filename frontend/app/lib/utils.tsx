@@ -1,11 +1,10 @@
-import { CapitalizeBooleanType, RenderFlagIconType } from "./types";
+import { booleanToStringType, RenderFlagIconType } from "./types";
 
-export const capitalizeBoolean: CapitalizeBooleanType = (value) => {
-    if (value === null || value === undefined) {
-        return 'Not available';
+export const booleanToString: booleanToStringType = (value) => {
+    if (value === true) {
+        return 'True';
     }
-    const strValue = value.toString();
-    return strValue.charAt(0).toUpperCase() + strValue.slice(1);
+    return 'False';
 }
 
 export const renderFlagIcon: RenderFlagIconType = (code, type) => {
