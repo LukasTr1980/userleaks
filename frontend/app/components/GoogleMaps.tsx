@@ -66,7 +66,7 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ latitude, longitude, accuracyRa
     const mapId = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
 
     if (!apiKey || !mapId) {
-        console.error("Error");
+        console.error("Error: Missing API Key or Map ID");
         throw new Error('An Error occurred.');
     }
 
