@@ -28,23 +28,23 @@ export async function GET(request: NextRequest) {
   let clienthostname = 'Not available';
   let IpData = null;
 
-  if (ipv4) {
-    try {
-      const [hostname] = await dns.reverse(ipv4);
-      clienthostname = hostname || 'Not available';
-    } catch (error) {
-      if (error instanceof Error) {
-        const dnsError = error as { code?: string };
-        if (dnsError.code === 'ENOTFOUND') {
-          logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
-        } else {
-          logger.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
-        }
-      }
-    }
-  } else {
-    clienthostname = 'Not available';
-  }
+  //if (ipv4) {
+  //  try {
+  //    const [hostname] = await dns.reverse(ipv4);
+  //    clienthostname = hostname || 'Not available';
+  //  } catch (error) {
+  //    if (error instanceof Error) {
+  //      const dnsError = error as { code?: string };
+  //      if (dnsError.code === 'ENOTFOUND') {
+  //        logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
+  //      } else {
+  //        logger.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
+  //      }
+  //    }
+  //  }
+  //} else {
+  //  clienthostname = 'Not available';
+  //}
 
   if (accountId && licenseKey && ipv4) {
     logger.info('MaxMind GeoIP lookup initiated...');
