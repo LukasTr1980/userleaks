@@ -79,10 +79,6 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ latitude, longitude, accuracyRa
                 disableDefaultUI={true}
                 mapId={mapId}
             >
-                <AdvancedMarker></AdvancedMarker>
-                {/*<CustomMarker latitude={latitude} longitude={longitude} ipaddress={ipaddress} />*/}
-
-                <AccuracyCircle latitude={latitude} longitude={longitude} accuracyRadius={accuracyRadius} />
             </Map>
         </APIProvider>
     );
