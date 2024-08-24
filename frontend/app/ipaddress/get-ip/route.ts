@@ -25,15 +25,11 @@ export async function GET(request: NextRequest) {
   const ipv4 = ipAddresses.find(ip => ip.includes('.'));
   const ipv6 = ipAddresses.find(ip => ip.includes(':'));
 
-  let clienthostname = 'Not available';
+  let clienthostname = null;
   let IpData = null;
-  try {
-    if (ipv4) {
-      const [hostname] = await dns.reverse(ipv4);
-      clienthostname = hostname || 'Not available';
-    }
-  } catch (error) {
-    logger.error('Reverse DNS lookup failed:', error);
+  if (ipv4) {
+    const [hostname] = await dns.reverse(ipv4);
+    clienthostname = hostname;
   }
 
   if (accountId && licenseKey && ipv4) {
@@ -70,7 +66,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     ipv4: ipv4 || null,
     ipv6: ipv6 || null,
-    clienthostname: clienthostname || 'Not available',
+    clienthostname: clienthostname || null,
     ipData: IpData || null,
   });
 }
