@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useIpaddressStore } from "../store/ipaddressStore";
-import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA } from "./constants";
+import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA, RIPE_DATA, DEFAULT_RIPE_DATA } from "./constants";
 import { RenderTableRowProps } from "./types";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
 import GoogleMaps from '../components/GoogleMaps';
 
 export default function Page() {
-    const { ipaddress, retrieveIpaddress } = useIpaddressStore();
+    const { ipaddress, ripeData, retrieveIpaddress } = useIpaddressStore();
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
@@ -19,12 +19,11 @@ export default function Page() {
             console.error('Error during retrieve of IP Address:', error);
             setHasError(true);
         }
-
-        retrieveIpaddress();
     }, [retrieveIpaddress]);
 
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;
+    const isRipeDataLoading = ripeData === null;
     const loadingTimeout = useTimeout({ isLoading: isIpLoading });
 
     if (hasError || loadingTimeout) {
@@ -106,6 +105,16 @@ export default function Page() {
                     <GoogleMaps latitude={latitude} longitude={longitude} accuracyRadius={accuracyRadius} ipaddress={ipv4Address} />
                 )}
             </div>
+
+            <div className="grid px-2"><span className="text-gray-600">Ripe WHOIS:</span></div>
+            <table className="table-auto">
+                <tbody>
+                    {renderTableRows({
+                        data: RIPE_DATA(ripeData || DEFAULT_RIPE_DATA),
+                        isLoading: isRipeDataLoading,
+                    })}
+                </tbody>
+            </table>
         </>
     );
 }

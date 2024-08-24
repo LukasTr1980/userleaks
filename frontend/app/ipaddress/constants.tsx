@@ -1,4 +1,4 @@
-import { IpData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, RipeData, IpaddressState } from "../store/ipaddressStore.types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
 
 export const DEFAULT_IP_DATA: IpData = {
@@ -20,6 +20,10 @@ export const DEFAULT_IP_DATA: IpData = {
     isResidentialProxy: null,
     isTorExitNode: null,
 };
+
+export const DEFAULT_RIPE_DATA: RipeData = {
+    abuseContact: null,
+}
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     {
@@ -79,7 +83,7 @@ export const TRAITS_DATA = (ipData: IpData) => [
     },
     { label: 'Network', value: ipData.network || 'Not available' },
     { label: 'Domain', value: ipData.domain || 'Not available' },
-]
+];
 
 export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
     { label: 'Is Anonymous', value: booleanToString(ipData.isAnonymous) },
@@ -87,4 +91,13 @@ export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
     { label: 'Is Public Proxy', value: booleanToString(ipData.isPublicProxy) },
     { label: 'Is Residential Proxy', value: booleanToString(ipData.isResidentialProxy) },
     { label: 'Is Tor Exit Node', value: booleanToString(ipData.isTorExitNode) },
-]
+];
+
+export const RIPE_DATA = (ripeData: RipeData) => [
+    {
+        label: 'Abuse Contact',
+        value: ripeData.abuseContact && ripeData.abuseContact.length > 0
+            ? ripeData.abuseContact.join(', ')
+            : 'Not available',
+    }
+];

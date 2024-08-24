@@ -18,6 +18,10 @@ export interface IpData {
     isTorExitNode: boolean | null,
 }
 
+export interface RipeData {
+    abuseContact: string[] | null;
+}
+
 export interface IpaddressState {
     ipaddress: {
         ipv4: string | null;
@@ -25,5 +29,10 @@ export interface IpaddressState {
         clienthostname: string | null;
         ipData: IpData | null;
     } | null;
+
+    ripeData: RipeData | null;
+
     retrieveIpaddress: () => void;
+
+    retrieveRipeData: (ipv4: string) => void;
 }
