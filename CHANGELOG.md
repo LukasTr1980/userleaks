@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.9.1] - 2024-08-24
 ### Added
 - Added a custom marker for Google Maps.
 - Added a footer.
@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The values of `true` and `false` are now displayed with uppercase letters.
 - "Not available" is now shown in gray to be less intrusive.
+
+### Fixed
+- Error handling if hostname is not available.
 
 ## [1.8.1] - 2024-08-20
 ### Fixed
