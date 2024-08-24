@@ -33,6 +33,8 @@ export default function Page() {
 
     const latitude = ipaddress?.ipData?.locationLatitude;
     const longitude = ipaddress?.ipData?.locationLongitude;
+    const accuracyRadius = ipaddress?.ipData?.locationAccuracyRadius;
+    const ipv4Address = ipaddress?.ipv4;
 
     const renderTableRows = ({ data, isLoading }: RenderTableRowProps) => {
         return data.map((item, index) => (
@@ -98,10 +100,10 @@ export default function Page() {
 
             <div className="grid px-2"><span className="text-gray-600">Where is my IP:</span></div>
             <div className="container w-full h-96">
-                {isLocationAndTraitsLoading || !latitude || !longitude ? (
+                {isLocationAndTraitsLoading || !latitude || !longitude || !accuracyRadius || !ipv4Address ? (
                     <Loading />
                 ) : (
-                    <GoogleMaps latitude={latitude} longitude={longitude} />
+                    <GoogleMaps latitude={latitude} longitude={longitude} accuracyRadius={accuracyRadius} ipaddress={ipv4Address} />
                 )}
             </div>
         </>

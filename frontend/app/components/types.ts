@@ -9,7 +9,21 @@ export interface UseTimeoutProps {
 
 export type UseTimeoutReturn = boolean;
 
+export interface AccuracyCircleProps {
+    latitude: number;
+    longitude: number;
+    accuracyRadius: number;
+}
+
 export interface GoogleMapsProps {
     latitude: number;
     longitude: number;
+    accuracyRadius: number;
+    ipaddress: string;
+}
+
+export interface CustomMarkerProps {
+    latitude: number;
+    longitude: number;
+    ipaddress: string;
 }
