@@ -21,6 +21,12 @@ COPY --from=deps /app/node_modules ./node_modules
 # Install dependencies required for building
 RUN npm ci
 
+ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+ARG NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID
+
+ENV NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=$NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+ENV NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID=$NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID
+
 # Build the Next.js application
 RUN npm run build
 
