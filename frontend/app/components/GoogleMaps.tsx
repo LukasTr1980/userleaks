@@ -1,4 +1,4 @@
-import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { GoogleMapsProps, AccuracyCircleProps, CustomMarkerProps } from "./types";
 import { useEffect } from "react";
 
@@ -79,7 +79,8 @@ const GoogleMaps: React.FC<GoogleMapsProps> = ({ latitude, longitude, accuracyRa
                 disableDefaultUI={true}
                 mapId={mapId}
             >
-                <CustomMarker latitude={latitude} longitude={longitude} ipaddress={ipaddress} />
+                <AdvancedMarker></AdvancedMarker>
+                {/*<CustomMarker latitude={latitude} longitude={longitude} ipaddress={ipaddress} />*/}
 
                 <AccuracyCircle latitude={latitude} longitude={longitude} accuracyRadius={accuracyRadius} />
             </Map>

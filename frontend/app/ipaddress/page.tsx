@@ -98,14 +98,14 @@ export default function Page() {
                 </tbody>
             </table>
 
-            {/*<div className="grid px-2"><span className="text-gray-600">Where is my IP:</span></div>
+            <div className="grid px-2"><span className="text-gray-600">Where is my IP:</span></div>
             <div className="container w-full h-96">
                 {isLocationAndTraitsLoading || !latitude || !longitude || !accuracyRadius || !ipv4Address ? (
                     <Loading />
                 ) : (
                     <GoogleMaps latitude={latitude} longitude={longitude} accuracyRadius={accuracyRadius} ipaddress={ipv4Address} />
                 )}
-            </div>*/}
+            </div>
         </>
     );
 }
