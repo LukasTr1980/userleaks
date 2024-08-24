@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Build stage: copy everything, install dependencies and build the app
 FROM node:20-alpine AS builder
@@ -19,7 +19,7 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 # Install dependencies required for building
-RUN npm ci --omit=dev
+RUN npm ci
 
 ARG NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 ARG NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID
