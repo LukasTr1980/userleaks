@@ -18,18 +18,30 @@ export async function GET(request: NextRequest) {
     ? devIp
     : request.headers.get('x-forwarded-for') || request.headers.get('remote-addr') || '127.0.0.1';
 
-    logger.info(`IP Address used for lookup: ${forwardedFor}`);
+  logger.info(`IP Address used for lookup: ${forwardedFor}`);
 
   const ipAddresses = forwardedFor.split(',').map(ip => ip.trim());
 
   const ipv4 = ipAddresses.find(ip => ip.includes('.'));
   const ipv6 = ipAddresses.find(ip => ip.includes(':'));
 
-  let clienthostname = null;
+  let clienthostname = 'Not available';
   let IpData = null;
+
   if (ipv4) {
-    const [hostname] = await dns.reverse(ipv4);
-    clienthostname = hostname;
+    try {
+      const [hostname] = await dns.reverse(ipv4);
+      clienthostname = hostname || 'Not available';
+    } catch (error) {
+      if (Error instanceof Error) {
+        const dnsError = error as { code?: string };
+        if (dnsError.code === 'ENOTFOUND') {
+          logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
+        } else {
+          logger.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
+        }
+      }
+    }
   }
 
   if (accountId && licenseKey && ipv4) {
@@ -66,7 +78,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     ipv4: ipv4 || null,
     ipv6: ipv6 || null,
-    clienthostname: clienthostname || null,
+    clienthostname: clienthostname,
     ipData: IpData || null,
   });
 }
