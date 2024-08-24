@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       const [hostname] = await dns.reverse(ipv4);
       clienthostname = hostname || 'Not available';
     } catch (error) {
-      if (Error instanceof Error) {
+      if (error instanceof Error) {
         const dnsError = error as { code?: string };
         if (dnsError.code === 'ENOTFOUND') {
           logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
@@ -42,6 +42,8 @@ export async function GET(request: NextRequest) {
         }
       }
     }
+  } else {
+    clienthostname = 'Not available';
   }
 
   if (accountId && licenseKey && ipv4) {
