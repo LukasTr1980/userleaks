@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v1.9.3] - 2024-08-24
 ### Fixed
-- Fixing crash on hostname not available.
+- Fixing crash.
 
 ## [v1.9.2] - 2024-08-24
 ### Fixed
