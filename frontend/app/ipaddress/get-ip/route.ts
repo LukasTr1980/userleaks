@@ -72,7 +72,9 @@ export async function GET(request: NextRequest) {
         isPublicProxy: maxmindResponse.traits.isPublicProxy || null,
         isResidentialProxy: maxmindResponse.traits.isResidentialProxy || null,
         isTorExitNode: maxmindResponse.traits.isTorExitNode || null,
+        queriesRemaining: maxmindResponse.maxmind?.queriesRemaining || null,
       };
+      logger.info(`Remaining Maxmind Queries: ${IpData.queriesRemaining}`);
     } catch (error) {
       logger.error('MaxMind GeoIP lookup failed:', error);
       return NextResponse.json({ error: 'Maxmind GeoIP lookup failed' }, { status: 500 });
