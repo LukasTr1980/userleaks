@@ -91,7 +91,7 @@ export default function Page() {
             <table className="table-auto">
                 <tbody>
                     {renderTableRows({
-                        data: TRAITS_DATA(ipaddress?.ipData || DEFAULT_IP_DATA), // Render with empty object initially
+                        data: TRAITS_DATA(ipaddress?.ipData || DEFAULT_IP_DATA, ripeData || DEFAULT_RIPE_DATA), // Render with empty object initially
                         isLoading: isLocationAndTraitsLoading, // Show spinner while loading
                     })}
                 </tbody>

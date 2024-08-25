@@ -64,6 +64,11 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
             status: data["address-space-hierarchy"].status || null,
           }
           : null,
+          prefixOverview: data["prefix-overview"]
+          ? {
+            asn: data["prefix-overview"].asn || null,
+          }
+          : null,
         },
         error: null,
       });

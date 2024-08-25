@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { RIPE_API_QUERIES, RIPE_API_MAPPINGS } from "../constants";
+import { RIPE_API_QUERIES } from "../constants";
 import logger from "../../lib/logger";
 
 const RIPE_API_BASE_URL = "https://stat.ripe.net/data";
@@ -24,8 +24,6 @@ export async function GET(request: NextRequest) {
             }
             const data = await response.json();
 
-            const key = RIPE_API_MAPPINGS[query];
-
             if (query ==="address-space-hierarchy") {
                 const addressSpace = data?.data?.exact?.[0];
                 const resource = data?.data?.resource;
@@ -41,7 +39,23 @@ export async function GET(request: NextRequest) {
                 };
             }
 
-            return { [query]: data?.data?.[key] || null }
+            if (query === "prefix-overview") {
+                const asns = data?.data?.asns || [];
+                const primaryASN = asns.length > 0 ? asns[0] : null;
+                return {
+                    [query]: {
+                        asn: primaryASN ? primaryASN.asn : null,
+                    }
+                };
+            }
+
+            if (query === "abuse-contact-finder") {
+                const abuseContacts = data?.data?.abuse_contacts || null;
+                return { [query]: abuseContacts };
+            }
+
+            return { [query]: null };
+
         });
         
         const queryResultArray = await Promise.all(fetchPromises);

@@ -1,4 +1,4 @@
-import { IpData, RipeData, IpaddressState, RipeApiMappings } from "../store/ipaddressStore.types";
+import { IpData, RipeData, IpaddressState } from "../store/ipaddressStore.types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
 
 export const DEFAULT_IP_DATA: IpData = {
@@ -24,17 +24,14 @@ export const DEFAULT_IP_DATA: IpData = {
 export const DEFAULT_RIPE_DATA: RipeData = {
     abuseContact: null,
     addressSpaceHierarchy: null,
+    prefixOverview: null,
 };
 
 export const RIPE_API_QUERIES = [
     "abuse-contact-finder",
     "address-space-hierarchy",
+    "prefix-overview",
 ];
-
-export const RIPE_API_MAPPINGS: RipeApiMappings = {
-    "abuse-contact-finder": "abuse_contacts",
-    "address-space-hierarchy": "exact",
-};
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     {
@@ -84,8 +81,27 @@ export const LOCATION_DATA = (ipData: IpData) => [
     { label: 'Postal', value: ipData.postal || 'Not available' },
 ];
 
-export const TRAITS_DATA = (ipData: IpData) => [
-    { label: 'Internet Service Provider', value: ipData.isp || 'Not available' },
+export const TRAITS_DATA = (ipData: IpData, ripeData: RipeData) => [
+    {
+        label: 'Internet Service Provider',
+        value: ipData.isp ? (
+            <span>
+                {ipData.isp}
+                {ripeData.prefixOverview?.asn ? (
+                    <>
+                        {' '}
+                        (<a
+                            href={`https://bgp.tools/as/${ripeData.prefixOverview.asn}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            AS{ripeData.prefixOverview.asn}
+                        </a>)
+                    </>
+                ) : ''}
+            </span>
+        ) : 'Not available',
+    },
     {
         label: 'Connection Type',
         value: typeof ipData.connectionType === 'object'

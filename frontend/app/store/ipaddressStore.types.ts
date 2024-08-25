@@ -27,6 +27,9 @@ export interface RipeData {
         descr: string | null;
         status: string | null;
     } | null;
+    prefixOverview: {
+        asn: string | null;
+    } | null;
 }
 
 export interface IpaddressState {
@@ -45,5 +48,3 @@ export interface IpaddressState {
 
     retrieveRipeData: (ipv4: string) => void;
 }
-
-export type RipeApiMappings = { [key: string]: string };

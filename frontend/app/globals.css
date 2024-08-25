@@ -8,6 +8,10 @@ body {
     font-size: medium;
 }
 
+a {
+    @apply underline;
+}
+
 h1 {
     @apply text-5xl;
 }
