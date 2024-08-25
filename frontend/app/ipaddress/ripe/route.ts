@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
     if (!ipv4) {
         logger.error("No IPv4 Address found in Zustand store");
-        return;
+        return NextResponse.json({ error: "No Ipv4 Address provided" }, { status: 400 });
     }
 
     const ripeApiUrl = `${RIPE_API_BASE_URL}/abuse-contact-finder/data.json?resource=${ipv4}`;
@@ -27,8 +27,10 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ abuseContacts });
     } catch (error) {
-        logger.error(`RIPEstat lookup failed for IP ${ipv4}`, error);
-        return;
+        if (error instanceof Error) {
+            logger.error(`RIPEstat lookup failed for IP ${ipv4}`, error);
+            return NextResponse.json({ error: "Internal Server Error", message: error.message }, { status: 500 });
+        }
     }
 
 }

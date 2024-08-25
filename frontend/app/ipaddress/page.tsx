@@ -9,7 +9,7 @@ import Loading from "./loading";
 import GoogleMaps from '../components/GoogleMaps';
 
 export default function Page() {
-    const { ipaddress, ripeData, retrieveIpaddress } = useIpaddressStore();
+    const { ipaddress, ripeData, retrieveIpaddress, error } = useIpaddressStore();
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
@@ -21,13 +21,23 @@ export default function Page() {
         }
     }, [retrieveIpaddress]);
 
+    useEffect(() => {
+        if (error) {
+            console.error('Error from Zustand ipaddressStore:', error);
+            setHasError(true);
+        }
+    }, [error]);
+
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;
     const isRipeDataLoading = ripeData === null;
-    const loadingTimeout = useTimeout({ isLoading: isIpLoading });
+
+    const isLoading = isIpLoading || isRipeDataLoading;
+
+    const loadingTimeout = useTimeout({ isLoading });
 
     if (hasError || loadingTimeout) {
-        throw new Error('An Error occurred.')
+        throw new Error('An Error occurred.');
     }
 
     const latitude = ipaddress?.ipData?.locationLatitude;

@@ -30,6 +30,8 @@ export interface IpaddressState {
         ipData: IpData | null;
     } | null;
 
+    error: string | null,
+
     ripeData: RipeData | null;
 
     retrieveIpaddress: () => void;

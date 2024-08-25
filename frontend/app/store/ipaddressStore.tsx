@@ -4,6 +4,7 @@ import { IpaddressState } from './ipaddressStore.types';
 export const useIpaddressStore = create<IpaddressState>((set, get) => ({
   ipaddress: null,
   ripeData: null,
+  error: null,
 
   retrieveIpaddress: async () => {
     try {
@@ -42,6 +43,7 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
 
     } catch (error) {
       console.error('Failed to retrieve IP address:', error);
+      set({ error: 'Failed to retrieve IP address' });
     }
   },
 
@@ -54,9 +56,11 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
         ripeData: {
           abuseContact: data.abuseContacts || null,
         },
+        error: null,
       });
     } catch (error) {
       console.error('Failed to retrieve RIPEstat data:', error);
+      set({ error: 'Failed to retrieve RIPEstat data' });
     }
   },
 }));

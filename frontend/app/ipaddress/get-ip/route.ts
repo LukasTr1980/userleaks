@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
           logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
         } else {
           logger.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
+          return NextResponse.json({ error: `Reverse DNS lookup failed for IP ${ipv4}`}, { status: 500 });
         }
       }
     }
@@ -74,6 +75,7 @@ export async function GET(request: NextRequest) {
       };
     } catch (error) {
       logger.error('MaxMind GeoIP lookup failed:', error);
+      return NextResponse.json({ error: 'Maxmind GeoIP lookup failed' }, { status: 500 });
     }
   }
 
