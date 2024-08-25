@@ -1,4 +1,4 @@
-import { IpData, RipeData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, RipeData, IpaddressState, RipeApiMappings } from "../store/ipaddressStore.types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
 
 export const DEFAULT_IP_DATA: IpData = {
@@ -23,7 +23,18 @@ export const DEFAULT_IP_DATA: IpData = {
 
 export const DEFAULT_RIPE_DATA: RipeData = {
     abuseContact: null,
-}
+    addressSpaceHierarchy: null,
+};
+
+export const RIPE_API_QUERIES = [
+    "abuse-contact-finder",
+    "address-space-hierarchy",
+];
+
+export const RIPE_API_MAPPINGS: RipeApiMappings = {
+    "abuse-contact-finder": "abuse_contacts",
+    "address-space-hierarchy": "exact",
+};
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     {
@@ -94,6 +105,11 @@ export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
 ];
 
 export const RIPE_DATA = (ripeData: RipeData) => [
+    { label: 'Net Range', value: ripeData.addressSpaceHierarchy?.inetnum || 'Not available' },
+    { label: 'CIDR', value: ripeData.addressSpaceHierarchy?.resource || 'Not available' },
+    { label: 'Net Name', value: ripeData.addressSpaceHierarchy?.netname || 'Not available' },
+    { label: 'Net Type', value: ripeData.addressSpaceHierarchy?.status || 'Not available' },
+    { label: 'Description', value: ripeData.addressSpaceHierarchy?.descr || 'Not available' },
     {
         label: 'Abuse Contact',
         value: ripeData.abuseContact && ripeData.abuseContact.length > 0

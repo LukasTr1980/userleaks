@@ -54,7 +54,16 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
 
       set({
         ripeData: {
-          abuseContact: data.abuseContacts || null,
+          abuseContact: data["abuse-contact-finder"] || null,
+          addressSpaceHierarchy: data["address-space-hierarchy"] 
+          ? {
+            resource: data["address-space-hierarchy"].resource || null,
+            inetnum: data["address-space-hierarchy"].inetnum || null,
+            netname: data["address-space-hierarchy"].netname || null,
+            descr: data["address-space-hierarchy"].descr || null,
+            status: data["address-space-hierarchy"].status || null,
+          }
+          : null,
         },
         error: null,
       });
