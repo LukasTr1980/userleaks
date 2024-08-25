@@ -4,7 +4,9 @@ import { booleanToString, renderFlagIcon } from "../lib/utils";
 export const DEFAULT_IP_DATA: IpData = {
     city: null,
     continent: null,
+    continentName: null,
     country: null,
+    countryName: null,
     locationLatitude: null,
     locationLongitude: null,
     locationTimezone: null,
@@ -55,7 +57,7 @@ export const LOCATION_DATA = (ipData: IpData) => [
         value: ipData.continent
             ? (
                 <span>
-                    {renderFlagIcon(ipData.continent, 'continent')} {ipData.continent}
+                    {renderFlagIcon(ipData.continent, 'continent')} {ipData.continentName?.en} ({ipData.continent})
                 </span>
             )
             : 'Not available'
@@ -65,7 +67,7 @@ export const LOCATION_DATA = (ipData: IpData) => [
         value: ipData.country
             ? (
                 <span>
-                    {renderFlagIcon(ipData.country, 'country')} {ipData.country}
+                    {renderFlagIcon(ipData.country, 'country')} {ipData.countryName?.en} ({ipData.country})
                 </span>
             )
             : 'Not available'

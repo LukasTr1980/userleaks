@@ -1,7 +1,9 @@
 export interface IpData {
     city: { [key: string]: string } | null,
     continent: string | null,
+    continentName: { [key: string]: string } | null,
     country: string | null,
+    countryName: { [key: string]: string } | null,
     locationLatitude: number | null,
     locationLongitude: number | null,
     locationTimezone: string | null,

@@ -19,7 +19,9 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
           ipData: {
             city: data.ipData?.city || null,
             continent: data.ipData?.continent || null,
+            continentName: data.ipData?.continentName || null,
             country: data.ipData?.country || null,
+            countryName: data.ipData?.countryName || null,
             locationLatitude: data.ipData?.locationLatitude || null,
             locationLongitude: data.ipData?.locationLongitude || null,
             locationTimezone: data.ipData?.locationTimezone || null,

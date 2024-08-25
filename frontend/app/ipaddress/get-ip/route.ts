@@ -57,7 +57,9 @@ export async function GET(request: NextRequest) {
       IpData = {
         city: maxmindResponse.city?.names || null,
         continent: maxmindResponse.continent?.code || null,
+        continentName: maxmindResponse.continent?.names || null,
         country: maxmindResponse.country?.isoCode || null,
+        countryName: maxmindResponse.country?.names || null,
         locationLatitude: maxmindResponse.location?.latitude || null,
         locationLongitude: maxmindResponse.location?.longitude || null,
         locationTimezone: maxmindResponse.location?.timeZone || null,
