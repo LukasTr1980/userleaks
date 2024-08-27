@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useIpaddressStore } from "../store/ipaddressStore";
-import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA, RIPE_DATA, DEFAULT_RIPE_DATA } from "./constants";
+import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA, RIR_DATA, DEFAULT_RIR_DATA } from "./constants";
 import { RenderTableRowProps } from "./types";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
 import GoogleMaps from '../components/GoogleMaps';
 
 export default function Page() {
-    const { ipaddress, ripeData, retrieveIpaddress, error } = useIpaddressStore();
+    const { ipaddress, rirData, retrieveIpaddress, error, rir } = useIpaddressStore();
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
@@ -30,9 +30,9 @@ export default function Page() {
 
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;
-    const isRipeDataLoading = ripeData === null;
+    const isRirDataLoading = rirData === null;
 
-    const isLoading = isIpLoading || isRipeDataLoading;
+    const isLoading = isIpLoading || isRirDataLoading;
 
     const loadingTimeout = useTimeout({ isLoading });
 
@@ -91,7 +91,7 @@ export default function Page() {
             <table className="table-auto">
                 <tbody>
                     {renderTableRows({
-                        data: TRAITS_DATA(ipaddress?.ipData || DEFAULT_IP_DATA, ripeData || DEFAULT_RIPE_DATA), // Render with empty object initially
+                        data: TRAITS_DATA(ipaddress?.ipData || DEFAULT_IP_DATA), // Render with empty object initially
                         isLoading: isLocationAndTraitsLoading, // Show spinner while loading
                     })}
                 </tbody>
@@ -116,12 +116,12 @@ export default function Page() {
                 )}
             </div>
 
-            <div className="grid px-2"><span className="text-gray-600">Ripe WHOIS:</span></div>
+            <div className="grid px-2"><span className="text-gray-600">{rir} WHOIS:</span></div>
             <table className="table-auto">
                 <tbody>
                     {renderTableRows({
-                        data: RIPE_DATA(ripeData || DEFAULT_RIPE_DATA),
-                        isLoading: isRipeDataLoading,
+                        data: RIR_DATA(rirData || DEFAULT_RIR_DATA),
+                        isLoading: isRirDataLoading,
                     })}
                 </tbody>
             </table>

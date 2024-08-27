@@ -6,7 +6,7 @@ import logger from "../../lib/logger";
 const accountId = process.env.MAXMIND_ACCOUNT_ID;
 const licenseKey = process.env.MAXMIND_LICENSE_KEY;
 
-const devIp = '188.34.152.146';
+const devIp = '196.10.53.1';
 
 export async function GET(request: NextRequest) {
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
         connectionType: maxmindResponse.traits?.connectionType || null,
         domain: maxmindResponse.traits?.domain || null,
         isp: maxmindResponse.traits?.isp || null,
+        asn: maxmindResponse.traits.autonomousSystemNumber || null,
         network: maxmindResponse.traits?.network || null,
         isAnonymous: maxmindResponse.traits.isAnonymous || null,
         isAnonymousVpn: maxmindResponse.traits?.isAnonymousVpn || null,

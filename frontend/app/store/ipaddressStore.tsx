@@ -1,9 +1,13 @@
 import { create } from 'zustand';
-import { IpaddressState } from './ipaddressStore.types';
+import { IpaddressState, VCardItem } from './ipaddressStore.types';
+import { determineRIR } from '../lib/utils';
+import { RIR_API_BASE_URLS } from '../ipaddress/constants';
+import { RIRType } from '../ipaddress/types';
 
 export const useIpaddressStore = create<IpaddressState>((set, get) => ({
   ipaddress: null,
-  ripeData: null,
+  rirData: null,
+  rir: null,
   error: null,
 
   retrieveIpaddress: async () => {
@@ -30,6 +34,7 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
             connectionType: data.ipData?.connectionType || null,
             domain: data.ipData?.domain || null,
             isp: data.ipData?.isp || null,
+            asn: data.ipData?.asn || null,
             network: data.ipData?.network || null,
             isAnonymous: data.ipData?.isAnonymous || null,
             isAnonymousVpn: data.ipData?.isAnonymousVpn || null,
@@ -40,7 +45,15 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
         },
       });
       if (data.ipv4) {
-        get().retrieveRipeData(data.ipv4);
+        const rir = await determineRIR(data.ipv4) as RIRType;
+        console.log(`Responsible RIR for IP ${data.ipv4}: ${rir}`);
+
+        set({ rir });
+
+        const rirApiBaseUrls = RIR_API_BASE_URLS[rir];
+        if (rirApiBaseUrls) {
+          get().retrieveRirData(data.ipv4, rirApiBaseUrls);
+        }
       }
 
     } catch (error) {
@@ -49,34 +62,49 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
     }
   },
 
-  retrieveRipeData: async (ipv4) => {
+  retrieveRirData: async (ipv4, rirUrl) => {
     try {
-      const response = await fetch(`/ipaddress/ripe?ipv4=${ipv4}`);
+      const response = await fetch(`/ipaddress/rir?ipv4=${ipv4}&rirUrl=${rirUrl}`);
       const data = await response.json();
 
+      const handle = data.handle || null;
+      const cidr = data.cidr0_cidrs && data.cidr0_cidrs.length > 0
+      ? `${data.cidr0_cidrs[0].v4prefix}/${data.cidr0_cidrs[0].length}`
+      : null;
+      const name = data.name || null;
+      const netType = data.type || null;
+      
+      let abuseContact = null;
+      if (data.entities && data.entities.length > 0) {
+        for (const entity of data.entities) {
+          const vcard = entity.vcardArray?.[1];
+
+          if (vcard) {
+            const abuseEntry = vcard.find((item: VCardItem) => {
+              return item[0] === 'email' && item[1].type === 'abuse';
+            });
+
+            if (abuseEntry) {
+              abuseContact = abuseEntry[3];
+              break;
+            }
+          }
+        }
+      }
+
       set({
-        ripeData: {
-          abuseContact: data["abuse-contact-finder"] || null,
-          addressSpaceHierarchy: data["address-space-hierarchy"] 
-          ? {
-            resource: data["address-space-hierarchy"].resource || null,
-            inetnum: data["address-space-hierarchy"].inetnum || null,
-            netname: data["address-space-hierarchy"].netname || null,
-            descr: data["address-space-hierarchy"].descr || null,
-            status: data["address-space-hierarchy"].status || null,
-          }
-          : null,
-          prefixOverview: data["prefix-overview"]
-          ? {
-            asn: data["prefix-overview"].asn || null,
-          }
-          : null,
+        rirData: {
+          handle,
+          cidr,
+          name,
+          netType,
+          abuseContact
         },
         error: null,
       });
     } catch (error) {
-      console.error('Failed to retrieve RIPEstat data:', error);
-      set({ error: 'Failed to retrieve RIPEstat data' });
+      console.error('Failed to retrieve RIR data:', error);
+      set({ error: 'Failed to retrieve RIR data' });
     }
   },
 }));

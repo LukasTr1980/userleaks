@@ -12,3 +12,5 @@ export interface RenderTableRowProps {
     data: RowData[];
     isLoading: boolean;
 }
+
+export type RIRType = "RIPE NCC" | "APNIC" | "ARIN" | "LACNIC" | "AFRINIC";

@@ -1,5 +1,6 @@
-import { IpData, RipeData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, RirData, IpaddressState } from "../store/ipaddressStore.types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
+import { RIRType } from "./types";
 
 export const DEFAULT_IP_DATA: IpData = {
     city: null,
@@ -15,6 +16,7 @@ export const DEFAULT_IP_DATA: IpData = {
     connectionType: null,
     domain: null,
     isp: null,
+    asn: null,
     network: null,
     isAnonymous: null,
     isAnonymousVpn: null,
@@ -23,17 +25,21 @@ export const DEFAULT_IP_DATA: IpData = {
     isTorExitNode: null,
 };
 
-export const DEFAULT_RIPE_DATA: RipeData = {
+export const DEFAULT_RIR_DATA: RirData = {
+    handle: null,
+    cidr: null,
+    name: null,
+    netType: null,
     abuseContact: null,
-    addressSpaceHierarchy: null,
-    prefixOverview: null,
 };
 
-export const RIPE_API_QUERIES = [
-    "abuse-contact-finder",
-    "address-space-hierarchy",
-    "prefix-overview",
-];
+export const RIR_API_BASE_URLS: Record<RIRType, string> = {
+    "RIPE NCC": "https://rdap.db.ripe.net/ip/",
+    "APNIC": "https://rdap.apnic.net/ip/",
+    "ARIN": "https://rdap.arin.net/registry/ip/",
+    "LACNIC": "https://rdap.lacnic.net/rdap/ip/",
+    "AFRINIC": "https://rdap.afrinic.net/rdap/ip/",
+};
 
 export const IP_DATA = (ipaddress: IpaddressState['ipaddress']) => [
     {
@@ -83,21 +89,21 @@ export const LOCATION_DATA = (ipData: IpData) => [
     { label: 'Postal', value: ipData.postal || 'Not available' },
 ];
 
-export const TRAITS_DATA = (ipData: IpData, ripeData: RipeData) => [
+export const TRAITS_DATA = (ipData: IpData) => [
     {
         label: 'Internet Service Provider',
         value: ipData.isp ? (
             <span>
                 {ipData.isp}
-                {ripeData.prefixOverview?.asn ? (
+                {ipData.asn ? (
                     <>
                         {' '}
                         (<a
-                            href={`https://bgp.tools/as/${ripeData.prefixOverview.asn}`}
+                            href={`https://bgp.tools/as/${ipData.asn}`}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            AS{ripeData.prefixOverview.asn}
+                            AS{ipData.asn}
                         </a>)
                     </>
                 ) : ''}
@@ -122,16 +128,10 @@ export const VPN_PROXY_TOR_DATA = (ipData: IpData) => [
     { label: 'Is Tor Exit Node', value: booleanToString(ipData.isTorExitNode) },
 ];
 
-export const RIPE_DATA = (ripeData: RipeData) => [
-    { label: 'Net Range', value: ripeData.addressSpaceHierarchy?.inetnum || 'Not available' },
-    { label: 'CIDR', value: ripeData.addressSpaceHierarchy?.resource || 'Not available' },
-    { label: 'Net Name', value: ripeData.addressSpaceHierarchy?.netname || 'Not available' },
-    { label: 'Net Type', value: ripeData.addressSpaceHierarchy?.status || 'Not available' },
-    { label: 'Description', value: ripeData.addressSpaceHierarchy?.descr || 'Not available' },
-    {
-        label: 'Abuse Contact',
-        value: ripeData.abuseContact && ripeData.abuseContact.length > 0
-            ? ripeData.abuseContact.join(', ')
-            : 'Not available',
-    }
+export const RIR_DATA = (rirData: RirData) => [
+    { label: 'Net Range', value: rirData.handle || 'Not available' },
+    { label: 'CIDR', value: rirData.cidr || 'Not available' },
+    { label: 'Net Name', value: rirData.name || 'Not available' },
+    { label: 'Net Type', value: rirData.netType || 'Not available' },
+    { label: 'Abuse Contact', value: rirData.abuseContact || 'Not available' },
 ];

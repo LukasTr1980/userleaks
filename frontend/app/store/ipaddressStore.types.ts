@@ -12,6 +12,7 @@ export interface IpData {
     connectionType: { type: string } | null,
     domain: string | null,
     isp: string | null,
+    asn: number | null,
     network: string | null,
     isAnonymous: boolean | null,
     isAnonymousVpn: boolean | null,
@@ -20,18 +21,19 @@ export interface IpData {
     isTorExitNode: boolean | null,
 }
 
-export interface RipeData {
-    abuseContact: string[] | null;
-    addressSpaceHierarchy: {
-        resource: string | null;
-        inetnum: string | null;
-        netname: string | null;
-        descr: string | null;
-        status: string | null;
-    } | null;
-    prefixOverview: {
-        asn: string | null;
-    } | null;
+export interface VCardItem {
+    0: string;
+    1: { type?: string };
+    2: string;
+    3: string;
+}
+
+export interface RirData {
+    handle: string | null;
+    cidr: string | null;
+    name: string | null;
+    netType: string | null;
+    abuseContact: string | null;
 }
 
 export interface IpaddressState {
@@ -44,9 +46,11 @@ export interface IpaddressState {
 
     error: string | null,
 
-    ripeData: RipeData | null;
+    rirData: RirData | null;
+
+    rir: string | null;
 
     retrieveIpaddress: () => void;
 
-    retrieveRipeData: (ipv4: string) => void;
+    retrieveRirData: (ipv4: string, rirUrl: string) => void;
 }
