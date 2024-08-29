@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { UseTimeoutProps, UseTimeoutReturn } from './types';
 
-export function useTimeout({ timeoutDuration = 5000, isLoading }: UseTimeoutProps): UseTimeoutReturn {
+export function useTimeout({ timeoutDuration = 10000, isLoading }: UseTimeoutProps): UseTimeoutReturn {
     const [loadingTimeout, setLoadingTimeout] = useState(false);
 
     useEffect(() => {

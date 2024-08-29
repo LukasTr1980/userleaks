@@ -29,7 +29,7 @@ export default function Page() {
         canvasstate.canvasSizeInBytes === null ||
         canvasstate.numberOfColors === null;
 
-    const loadingTimeout = useTimeout({ timeoutDuration: 5000, isLoading });
+    const loadingTimeout = useTimeout({ timeoutDuration: 10000, isLoading });
 
     if (hasError || loadingTimeout) {
         throw new Error('An error occured.');
