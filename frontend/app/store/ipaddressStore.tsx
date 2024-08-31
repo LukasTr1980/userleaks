@@ -69,24 +69,45 @@ export const useIpaddressStore = create<IpaddressState>((set, get) => ({
 
       const handle = data.handle || null;
       const cidr = data.cidr0_cidrs && data.cidr0_cidrs.length > 0
-      ? `${data.cidr0_cidrs[0].v4prefix}/${data.cidr0_cidrs[0].length}`
-      : null;
+        ? `${data.cidr0_cidrs[0].v4prefix}/${data.cidr0_cidrs[0].length}`
+        : null;
       const name = data.name || null;
       const netType = data.type || null;
-      
+
       let abuseContact = null;
-      if (data.entities && data.entities.length > 0) {
+
+      if (data.remarks && data.remarks.length > 0) {
+        for (const remark of data.remarks) {
+          const abuseEmail = remark.description.find((desc: string) => desc.toLowerCase().includes('abuse@'));
+          if (abuseEmail) {
+            abuseContact = abuseEmail;
+            break;
+          }
+        }
+      }
+
+      if (!abuseContact && data.entities && data.entities.length > 0) {
         for (const entity of data.entities) {
           const vcard = entity.vcardArray?.[1];
 
           if (vcard) {
-            const abuseEntry = vcard.find((item: VCardItem) => {
-              return item[0] === 'email' && item[1].type === 'abuse';
-            });
+            const emailEntry = vcard.find((item: VCardItem) => item[0] === 'email');
+            const hasAbuseRole = entity.roles.includes('abuse');
+            const isAbuseEmail = emailEntry && emailEntry[3]?.toLowerCase().includes('abuse');
 
-            if (abuseEntry) {
-              abuseContact = abuseEntry[3];
+            if (hasAbuseRole || isAbuseEmail) {
+              abuseContact = emailEntry[3];
               break;
+            }
+          }
+
+          if (entity.remarks && entity.remarks.length > 0) {
+            for (const remark of entity.remarks) {
+              const abuseEmail = remark.description.find((desc: string) => desc.toLowerCase().includes('abuse@'));
+              if (abuseEmail) {
+                abuseContact = abuseEmail;
+                break;
+              }
             }
           }
         }
