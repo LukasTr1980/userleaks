@@ -10,7 +10,7 @@
     "@maxmind/geoip2-node": "^5.0.0",
     "@vis.gl/react-google-maps": "^1.1.0",
     "flag-icons": "^7.2.3",
-    "next": "^14.2.5",
+    "next": "^14.2.7",
     "rate-limiter-flexible": "^5.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
