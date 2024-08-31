@@ -4,7 +4,7 @@ export interface RowData {
 }
 
 export interface ErrorBoundaryProps {
-    error: Error & { digest?: string };
+    error: Error & { status?: number, digest?: string };
     reset: () => void;
 }
 
