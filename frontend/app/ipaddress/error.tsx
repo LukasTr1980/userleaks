@@ -8,7 +8,7 @@ export default function Error({ error, reset }: ErrorBoundaryProps) {
         console.error('Error', error);
     }, [error]);
 
-    const isTooManyRequests = error?.status === 429;
+    const isTooManyRequests = error.name === 'RateLimitExceededError';
 
     return (
         <div>
