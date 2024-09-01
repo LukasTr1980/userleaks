@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as dns } from "dns";
 import { WebServiceClient } from "@maxmind/geoip2-node";
-import logger from "../../lib/logger";
 
 const accountId = process.env.MAXMIND_ACCOUNT_ID;
 const licenseKey = process.env.MAXMIND_LICENSE_KEY;
@@ -11,14 +10,11 @@ const devIp = '196.10.53.1';
 export async function GET(request: NextRequest) {
   const isDevelopment = process.env.NODE_ENV === 'development';
 
-  logger.debug(`Environment: ${process.env.NODE_ENV}`);
-  logger.debug(`MaxMind Account ID: ${accountId}`);
-
   const forwardedFor = isDevelopment
     ? devIp
     : request.headers.get('x-forwarded-for') || request.headers.get('remote-addr') || '127.0.0.1';
 
-  logger.info(`IP Address used for lookup: ${forwardedFor}`);
+  console.info(`IP Address used for lookup: ${forwardedFor}`);
 
   const ipAddresses = forwardedFor.split(',').map(ip => ip.trim());
 
@@ -36,9 +32,9 @@ export async function GET(request: NextRequest) {
       if (error instanceof Error) {
         const dnsError = error as { code?: string };
         if (dnsError.code === 'ENOTFOUND') {
-          logger.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
+          console.info(`No reverse DNS entry for IP ${ipv4}. Returning 'Not available'.`);
         } else {
-          logger.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
+          console.error(`Reverse DNS lookup failed for IP ${ipv4}:`, error);
           return NextResponse.json({ error: `Reverse DNS lookup failed for IP ${ipv4}`}, { status: 500 });
         }
       }
@@ -48,7 +44,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (accountId && licenseKey && ipv4) {
-    logger.info('MaxMind GeoIP lookup initiated...');
+    console.info('MaxMind GeoIP lookup initiated...');
     try {
       const client = new WebServiceClient(accountId, licenseKey);
 
@@ -77,9 +73,9 @@ export async function GET(request: NextRequest) {
         isTorExitNode: maxmindResponse.traits.isTorExitNode || null,
         queriesRemaining: maxmindResponse.maxmind?.queriesRemaining || null,
       };
-      logger.info(`Remaining Maxmind Queries: ${IpData.queriesRemaining}`);
+      console.info(`Remaining Maxmind Queries: ${IpData.queriesRemaining}`);
     } catch (error) {
-      logger.error('MaxMind GeoIP lookup failed:', error);
+      console.error('MaxMind GeoIP lookup failed:', error);
       return NextResponse.json({ error: 'Maxmind GeoIP lookup failed' }, { status: 500 });
     }
   }

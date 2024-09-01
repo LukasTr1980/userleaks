@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import logger from "../../lib/logger";
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -7,13 +6,13 @@ export async function GET(request: NextRequest) {
     const rirUrl = searchParams.get("rirUrl");
 
     if (!ipv4 || !rirUrl) {
-        logger.error("No IPv4 Address or RIR URL found in Zustand store");
+        console.error("No IPv4 Address or RIR URL found in Zustand store");
         return NextResponse.json({ error: "No Ipv4 Address or RIR URL provided" }, { status: 400 });
     }
 
     try {
         const apiUrl = `${rirUrl}${ipv4}`;
-        logger.info(`Querying RIR RDAP API for IP: ${ipv4} via URL: ${rirUrl}`)
+        console.info(`Querying RIR RDAP API for IP: ${ipv4} via URL: ${rirUrl}`)
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -25,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     } catch (error) {
         if (error instanceof Error) {
-            logger.error(`RIR RDAP API lookup failed for IP ${ipv4}`, error);
+            console.error(`RIR RDAP API lookup failed for IP ${ipv4}`, error);
             return NextResponse.json({ error: "Internal Server Error", message: error.message }, { status: 500 });
         }
     }
