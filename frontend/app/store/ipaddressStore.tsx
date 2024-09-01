@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { IpaddressState, VCardItem } from './ipaddressStore.types';
-import { determineRIR } from '../lib/utils';
+import { determineRIR } from '../ipaddress/components/determineRIR';
 import { RIR_API_BASE_URLS } from '../ipaddress/constants';
 import { RIRType } from '../ipaddress/types';
 

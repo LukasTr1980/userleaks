@@ -28,9 +28,7 @@ export async function middleware(req: NextRequest) {
         }
     } catch (rateLimiterRes) {
         console.warn(`Client IP: ${clientIp} - Rate limit exceeded. Access denied to ${req.nextUrl.pathname}`);
-        const error = new Error('Too many requests');
-        error.name = 'RateLimitExceededError';
-        throw error;
+        return NextResponse.json({ message: 'Too many requests, try again later.' }, { status: 429 });
     }
 
 }

@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useIpaddressStore } from "../store/ipaddressStore";
 import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA, RIR_DATA, DEFAULT_RIR_DATA } from "./constants";
-import { RenderTableRowProps } from "./types";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
 import GoogleMaps from '../components/GoogleMaps';
+import { renderTableRows } from "./components/renderTableRows";
 
 export default function Page() {
     const { ipaddress, rirData, retrieveIpaddress, error, rir } = useIpaddressStore();
@@ -44,23 +44,6 @@ export default function Page() {
     const longitude = ipaddress?.ipData?.locationLongitude;
     const accuracyRadius = ipaddress?.ipData?.locationAccuracyRadius;
     const ipv4Address = ipaddress?.ipv4;
-
-    const renderTableRows = ({ data, isLoading }: RenderTableRowProps) => {
-        return data.map((item, index) => (
-            <tr key={index}>
-                <td className="w-1/3">{item.label}</td>
-                <td className={item.label === 'Hostname' ? 'break-all' : ''}>
-                    {isLoading ? (
-                        <Loading />
-                    ) : (
-                        <span className={item.value === 'Not available' ? 'text-gray-300' : ''}>
-                            {item.value || 'Not available'}
-                        </span>
-                    )}
-                </td>
-            </tr>
-        ));
-    };
 
     return (
         <>

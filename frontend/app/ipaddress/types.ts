@@ -14,3 +14,5 @@ export interface RenderTableRowProps {
 }
 
 export type RIRType = "RIPE NCC" | "APNIC" | "ARIN" | "LACNIC" | "AFRINIC";
+
+export type DetermineRIRType = (ipv4: string) => Promise<string>;
