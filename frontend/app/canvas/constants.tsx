@@ -1,4 +1,4 @@
-import { CanvasSupportState } from "../store/canvasStore.types"
+import { CanvasSupportState } from "./types";
 
 export const SUPPORT_CHECK_DATA = (state: CanvasSupportState) => [
     { label: 'Canvas 2D API Support check', value: state.canvasSupported ? 'Supported' : 'Not Supported' },
