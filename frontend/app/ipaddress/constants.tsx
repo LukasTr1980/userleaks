@@ -1,5 +1,6 @@
-import { IpData, RirData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, IpaddressState } from "../store/ipaddressStore.types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
+import { RirData } from "./types";
 import { RIRType } from "./types";
 
 export const DEFAULT_IP_DATA: IpData = {

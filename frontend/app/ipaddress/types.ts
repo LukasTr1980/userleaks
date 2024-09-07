@@ -16,3 +16,18 @@ export interface RenderTableRowProps {
 export type RIRType = "RIPE NCC" | "APNIC" | "ARIN" | "LACNIC" | "AFRINIC";
 
 export type DetermineRIRType = (ipv4: string) => Promise<string>;
+
+export interface VCardItem {
+    0: string;
+    1: { type?: string };
+    2: string;
+    3: string;
+}
+
+export interface RirData {
+    handle: string | null;
+    cidr: string | null;
+    name: string | null;
+    netType: string | null;
+    abuseContact: string | null;
+}

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] -  
+### Changed
+Moved rir logic to route.ts file, removed it from zustand store.
+
 ## [v1.11.6] - 2024-09-07 
 ### Changed
 Exported rendertablerows from page.tsx in ipaddress, moved determineRIR function to another place.

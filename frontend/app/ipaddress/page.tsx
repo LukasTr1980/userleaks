@@ -9,8 +9,11 @@ import GoogleMaps from '../components/GoogleMaps';
 import { renderTableRows } from "./components/renderTableRows";
 
 export default function Page() {
-    const { ipaddress, rirData, retrieveIpaddress, error, rir } = useIpaddressStore();
+    const { ipaddress, retrieveIpaddress, error } = useIpaddressStore();
+    const [rirData, setRirData] = useState(null);
+    const [rir, setRir] = useState(null);
     const [hasError, setHasError] = useState(false);
+    const [isRirLoading, setIsRirLoading] = useState(true);
 
     useEffect(() => {
         try {
@@ -22,6 +25,27 @@ export default function Page() {
     }, [retrieveIpaddress]);
 
     useEffect(() => {
+        const fetchRIRData = async (ipv4: string) => {
+            try {
+                console.log('IP ADDRESS:', ipv4);
+                const response = await fetch(`/ipaddress/rir?ipv4=${ipv4}`);
+                const data = await response.json();
+                setRir(data.rir);
+                setRirData(data.rirData);
+                setIsRirLoading(false);
+            } catch (error) {
+                console.error('Error fetching RIR data:', error);
+                setHasError(true);
+                setIsRirLoading(false);
+            }
+        };
+
+        if (ipaddress?.ipv4) {
+            fetchRIRData(ipaddress.ipv4);
+        }
+    }, [ipaddress]);
+
+    useEffect(() => {
         if (error) {
             console.error('Error from Zustand ipaddressStore:', error);
             setHasError(true);
@@ -30,9 +54,8 @@ export default function Page() {
 
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;
-    const isRirDataLoading = rirData === null;
 
-    const isLoading = isIpLoading || isRirDataLoading;
+    const isLoading = isIpLoading || isRirLoading;
 
     const loadingTimeout = useTimeout({ isLoading });
 
@@ -104,7 +127,7 @@ export default function Page() {
                 <tbody>
                     {renderTableRows({
                         data: RIR_DATA(rirData || DEFAULT_RIR_DATA),
-                        isLoading: isRirDataLoading,
+                        isLoading: isRirLoading,
                     })}
                 </tbody>
             </table>
