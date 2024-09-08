@@ -1,4 +1,4 @@
-import { IpData, IpaddressState } from "../store/ipaddressStore.types";
+import { IpData, IpaddressState } from "./types";
 import { booleanToString, renderFlagIcon } from "../lib/utils";
 import { RirData } from "./types";
 import { RIRType } from "./types";

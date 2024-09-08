@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useIpaddressStore } from "../store/ipaddressStore";
+import { IpaddressState } from "./types";
 import { IP_DATA, LOCATION_DATA, TRAITS_DATA, VPN_PROXY_TOR_DATA, DEFAULT_IP_DATA, RIR_DATA, DEFAULT_RIR_DATA } from "./constants";
 import { useTimeout } from "../components/useTimeout";
 import Loading from "./loading";
@@ -9,20 +9,25 @@ import GoogleMaps from '../components/GoogleMaps';
 import { renderTableRows } from "./components/renderTableRows";
 
 export default function Page() {
-    const { ipaddress, retrieveIpaddress, error } = useIpaddressStore();
+    const [ipaddress, setIpaddress] = useState<IpaddressState["ipaddress"]>(null);
     const [rirData, setRirData] = useState(null);
     const [rir, setRir] = useState(null);
     const [hasError, setHasError] = useState(false);
     const [isRirLoading, setIsRirLoading] = useState(true);
 
     useEffect(() => {
-        try {
-            retrieveIpaddress();
-        } catch (error) {
-            console.error('Error during retrieve of IP Address:', error);
-            setHasError(true);
-        }
-    }, [retrieveIpaddress]);
+        const fetchIpaddress = async () => {
+            try {
+                const response = await fetch('/ipaddress/get-ip'); // Call the API route
+                const data: IpaddressState["ipaddress"] = await response.json();
+                setIpaddress(data);
+            } catch (err) {
+                console.error('Failed to retrieve IP address:', err);
+                setHasError(true);
+            }
+        };
+        fetchIpaddress();
+    }, []);
 
     useEffect(() => {
         const fetchRIRData = async (ipv4: string) => {
@@ -44,13 +49,6 @@ export default function Page() {
             fetchRIRData(ipaddress.ipv4);
         }
     }, [ipaddress]);
-
-    useEffect(() => {
-        if (error) {
-            console.error('Error from Zustand ipaddressStore:', error);
-            setHasError(true);
-        }
-    }, [error]);
 
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;

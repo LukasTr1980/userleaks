@@ -7,7 +7,7 @@ async function initializeRateLimiter() {
     if (rateLimiter) return;
 
     rateLimiter = new RateLimiterMemory({
-        points: 10,
+        points: 50,
         duration: 60 * 10,
     })
     console.info('In-memory rate limiter initialized');

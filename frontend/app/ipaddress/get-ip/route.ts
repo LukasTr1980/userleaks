@@ -5,7 +5,7 @@ import { WebServiceClient } from "@maxmind/geoip2-node";
 const accountId = process.env.MAXMIND_ACCOUNT_ID;
 const licenseKey = process.env.MAXMIND_LICENSE_KEY;
 
-const devIp = '196.10.53.1';
+const devIp = process.env.DEV_IP;
 
 export async function GET(request: NextRequest) {
   const isDevelopment = process.env.NODE_ENV === 'development';
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   console.info(`IP Address used for lookup: ${forwardedFor}`);
 
-  const ipAddresses = forwardedFor.split(',').map(ip => ip.trim());
+  const ipAddresses = (forwardedFor || '127.0.0.1').split(',').map(ip => ip.trim());
 
   const ipv4 = ipAddresses.find(ip => ip.includes('.'));
   const ipv6 = ipAddresses.find(ip => ip.includes(':'));
