@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as dns } from "dns";
 import { WebServiceClient } from "@maxmind/geoip2-node";
+import { getTimeForTimeZone } from "../../lib/utils";
 
 const accountId = process.env.MAXMIND_ACCOUNT_ID;
 const licenseKey = process.env.MAXMIND_LICENSE_KEY;
@@ -50,6 +51,9 @@ export async function GET(request: NextRequest) {
 
       const maxmindResponse = await client.insights(ipv4);
 
+      const timezone = maxmindResponse.location?.timeZone || null;
+      const currentTime = getTimeForTimeZone(timezone);
+
       IpData = {
         city: maxmindResponse.city?.names || null,
         continent: maxmindResponse.continent?.code || null,
@@ -58,7 +62,8 @@ export async function GET(request: NextRequest) {
         countryName: maxmindResponse.country?.names || null,
         locationLatitude: maxmindResponse.location?.latitude || null,
         locationLongitude: maxmindResponse.location?.longitude || null,
-        locationTimezone: maxmindResponse.location?.timeZone || null,
+        locationTimezone: timezone || null,
+        currentTime: currentTime,
         locationAccuracyRadius: maxmindResponse.location?.accuracyRadius || null,
         postal: maxmindResponse.postal?.code || null,
         connectionType: maxmindResponse.traits?.connectionType || null,

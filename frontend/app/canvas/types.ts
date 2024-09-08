@@ -1,6 +1,8 @@
+import React from "react";
+
 export interface RowData {
     label: string;
-    value: string | number | JSX.Element | null;
+    value: string | number | React.JSX.Element | null;
 }
 
 export interface ErrorBoundaryProps {

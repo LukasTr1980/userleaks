@@ -4,11 +4,19 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import pluginReact from "eslint-plugin-react";
 
+const jsRecommended = pluginJs.configs.recommended;
+const tsRecommended = tseslint.configs.recommended;
+const reactRecommended = pluginReact.configs.recommended;
+
 export default [
   {
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        "google": "readonly",
+      },
       parser: tsParser,  // Use the TypeScript parser for all files
       parserOptions: {
         ecmaVersion: "latest",  // Use the latest ECMAScript standard
@@ -22,12 +30,10 @@ export default [
       "@typescript-eslint": tseslint,
       "react": pluginReact,
     },
-    extends: [
-      pluginJs.configs.recommended,         // Base ESLint rules
-      "plugin:@typescript-eslint/recommended",  // TypeScript-specific rules
-      "plugin:react/recommended",           // React-specific rules
-    ],
     rules: {
+      ...jsRecommended.rules,
+      ...tsRecommended.rules,
+      ...reactRecommended.rules,
       "react/react-in-jsx-scope": "off",    // Next.js doesn't require React in scope
       "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],  // Ignore unused variables starting with "_"
       // Add or customize additional rules as needed

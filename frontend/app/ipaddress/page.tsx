@@ -32,7 +32,7 @@ export default function Page() {
     useEffect(() => {
         const fetchRIRData = async (ipv4: string) => {
             try {
-                console.log('IP ADDRESS:', ipv4);
+                console.info('IP ADDRESS:', ipv4);
                 const response = await fetch(`/ipaddress/rir?ipv4=${ipv4}`);
                 const data = await response.json();
                 setRir(data.rir);
@@ -69,7 +69,7 @@ export default function Page() {
     return (
         <>
             <div className='grid pb-2 px-2'>
-                <h4>What's my IP Address?</h4>
+                <h4>What&#39;s my IP Address?</h4>
             </div>
 
             {/* IP Address Data */}

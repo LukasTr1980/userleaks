@@ -1,6 +1,8 @@
+import React from "react";
+
 export interface RowData {
     label: string;
-    value: string | number | boolean | JSX.Element | null;
+    value: string | number | boolean | React.JSX.Element | null;
 }
 
 export interface ErrorBoundaryProps {
@@ -41,6 +43,7 @@ export interface IpData {
     locationLatitude: number | null,
     locationLongitude: number | null,
     locationTimezone: string | null,
+    currentTime: string | null,
     locationAccuracyRadius: number | null,
     postal: string | null,
     connectionType: { type: string } | null,

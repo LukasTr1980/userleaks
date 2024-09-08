@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     try {
         const rir = await determineRIR(ipv4) as RIRType;
-        console.log(`Responsible RIR for IP ${ipv4}: ${rir}`);
+        console.info(`Responsible RIR for IP ${ipv4}: ${rir}`);
 
         const rirApiBaseUrl = RIR_API_BASE_URLS[rir];
         if (!rirApiBaseUrl) {

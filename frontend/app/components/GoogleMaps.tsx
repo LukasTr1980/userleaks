@@ -1,4 +1,5 @@
-import { AdvancedMarker, APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
+import React from "react";
+import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { GoogleMapsProps, AccuracyCircleProps, CustomMarkerProps } from "./types";
 import { useEffect } from "react";
 

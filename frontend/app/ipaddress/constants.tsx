@@ -12,6 +12,7 @@ export const DEFAULT_IP_DATA: IpData = {
     locationLatitude: null,
     locationLongitude: null,
     locationTimezone: null,
+    currentTime: null,
     locationAccuracyRadius: null,
     postal: null,
     connectionType: null,
@@ -85,8 +86,14 @@ export const LOCATION_DATA = (ipData: IpData) => [
             ? `${ipData.locationLatitude}, ${ipData.locationLongitude}`
             : 'Not available'
     },
-    { label: 'AccuracyRadius', value: `${ipData.locationAccuracyRadius} km` || 'Not available' },
+    {
+        label: 'AccuracyRadius',
+        value: ipData.locationAccuracyRadius != null
+            ? `${ipData.locationAccuracyRadius} km`
+            : 'Not available'
+    },
     { label: 'Timezone', value: ipData.locationTimezone || 'Not available' },
+    { label: 'Local Time', value: ipData.currentTime || 'Not available' },
     { label: 'Postal', value: ipData.postal || 'Not available' },
 ];
 
