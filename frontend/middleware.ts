@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
             console.info(`Client IP: ${clientIp} - Allowed access to ${req.nextUrl.pathname}`);
             return NextResponse.next()
         }
-    } catch (rateLimiterRes) {
+    } catch {
         console.warn(`Client IP: ${clientIp} - Rate limit exceeded. Access denied to ${req.nextUrl.pathname}`);
         return NextResponse.json({ message: 'Too many requests, try again later.' }, { status: 429 });
     }

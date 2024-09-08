@@ -12,18 +12,23 @@ export default function Page() {
     const [ipaddress, setIpaddress] = useState<IpaddressState["ipaddress"]>(null);
     const [rirData, setRirData] = useState(null);
     const [rir, setRir] = useState(null);
-    const [hasError, setHasError] = useState(false);
     const [isRirLoading, setIsRirLoading] = useState(true);
+    const [hasError, setHasError] = useState<Error | null>(null);
 
     useEffect(() => {
         const fetchIpaddress = async () => {
             try {
-                const response = await fetch('/ipaddress/get-ip'); // Call the API route
+                const response = await fetch('/ipaddress/get-ip');
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to retrieve IP address');
+                }
                 const data: IpaddressState["ipaddress"] = await response.json();
                 setIpaddress(data);
             } catch (err) {
                 console.error('Failed to retrieve IP address:', err);
-                setHasError(true);
+                setHasError(err as Error);
             }
         };
         fetchIpaddress();
@@ -34,13 +39,19 @@ export default function Page() {
             try {
                 console.info('IP ADDRESS:', ipv4);
                 const response = await fetch(`/ipaddress/rir?ipv4=${ipv4}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error fetching RIR data')
+                }
+
                 const data = await response.json();
                 setRir(data.rir);
                 setRirData(data.rirData);
                 setIsRirLoading(false);
-            } catch (error) {
-                console.error('Error fetching RIR data:', error);
-                setHasError(true);
+            } catch (err) {
+                console.error('Error fetching RIR data:', err);
+                setHasError(err as Error);
                 setIsRirLoading(false);
             }
         };
@@ -52,13 +63,15 @@ export default function Page() {
 
     const isIpLoading = ipaddress === null;
     const isLocationAndTraitsLoading = !ipaddress?.ipData;
-
     const isLoading = isIpLoading || isRirLoading;
-
     const loadingTimeout = useTimeout({ isLoading });
 
-    if (hasError || loadingTimeout) {
-        throw new Error('An Error occurred.');
+    if (hasError) {
+        throw hasError;
+    }
+
+    if (loadingTimeout) {
+        throw new Error('Loading timeout.');
     }
 
     const latitude = ipaddress?.ipData?.locationLatitude;

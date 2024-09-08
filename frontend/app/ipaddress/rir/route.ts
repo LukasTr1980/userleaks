@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
     if (!ipv4) {
         console.error('No IPV4 Address found.');
-        return NextResponse.json({ error: "No Ipv4 Address provided" }, { status: 400 });
+        return NextResponse.json({ message: "No Ipv4 Address provided" }, { status: 400 });
     }
 
     try {
@@ -18,7 +18,8 @@ export async function GET(request: NextRequest) {
 
         const rirApiBaseUrl = RIR_API_BASE_URLS[rir];
         if (!rirApiBaseUrl) {
-            throw new Error(`No API URL found for RIR: ${rir}`);
+            console.error(`No API URL found for RIR: ${rir}`);
+            return NextResponse.json({ message: `No API URL found for RIR: ${rir}` }, { status: 404 });
         }
 
         const apiUrl = `${rirApiBaseUrl}${ipv4}`;
@@ -26,7 +27,8 @@ export async function GET(request: NextRequest) {
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error(`Failed to fetch data from RIR RDAP API for IP: ${ipv4}`);
+            console.error(`Failed to fetch data from RIR RDAP API for IP: ${ipv4}`);
+            return NextResponse.json({ message: `Failed to fetch data from RIR RDAP API for IP: ${ipv4}` }, { status: 500 });
         }
 
         const rirData = await response.json();
