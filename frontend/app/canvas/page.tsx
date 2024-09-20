@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Loading from './loading';
-import { RenderTableRowProps } from './types';
 import { SUPPORT_CHECK_DATA, CANVAS_DETAILS_DATA, CANVAS_SIGNATURE_DATA } from './constants';
 import { useTimeout } from '../components/useTimeout';
 import { checkCanvasSupport } from './components/checkCanvasSupport';
 import { CanvasSupportState } from './types';
+import renderTableRows from './components/renderTableRows';
 
 export default function Page() {
     const [canvasState, setCanvasState] = useState<CanvasSupportState>({
@@ -47,28 +46,6 @@ export default function Page() {
 
     if (hasError || loadingTimeout) {
         throw new Error('An error occured.');
-    }
-
-    const renderTableRows = ({ data, isLoading }: RenderTableRowProps) => {
-        return data.map((item, index) => (
-            <tr key={index}>
-                <td className='w-1/3'>{item.label}</td>
-                <td
-                    className={`
-                    ${item.label === 'Canvas Fingerprint' ? 'break-all' : ''}
-                    ${item.label === 'Canvas Image' ? 'h-14' : ''}
-                    `}
-                >
-                    {isLoading ? (
-                        <Loading />
-                    ) : (
-                        <span className={item.value === 'Not available' ? 'text-gray-300' : ''}>
-                            {item.value || 'Not available'}
-                        </span>
-                    )}
-                </td>
-            </tr>
-        ))
     }
 
     return (
